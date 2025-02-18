@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://cep32021semp"]
+
+[ext_resource type="Script" path="res://root.gd" id="1_3o2xq"]
+
+[sub_resource type="Curve" id="Curve_8iaxp"]
+_data = [Vector2(0, 0), 0.0, 0.410464, 0, 0, Vector2(0.507389, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.494776), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[node name="Node2D" type="Node2D"]
+position = Vector2(-1, 0)
+script = ExtResource("1_3o2xq")
+curve = SubResource("Curve_8iaxp")
+
+[node name="Line2D" type="Line2D" parent="."]
+points = PackedVector2Array(0, 0, 145, 96, 201, 16)
+
+[node name="ColorRect" type="ColorRect" parent="."]
+visible = false
+offset_right = 40.0
+offset_bottom = 40.0

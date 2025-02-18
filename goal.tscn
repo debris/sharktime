@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://ts7ldilwwn32"]
+
+[node name="Goal" type="Node2D"]
+
+[node name="Line2D" type="Line2D" parent="."]
+position = Vector2(-24, -24)
+rotation = 0.785398
+points = PackedVector2Array(0, 0, 64, 0)
+default_color = Color(0.0509804, 0.894118, 0.854902, 1)
+
+[node name="Line2D2" type="Line2D" parent="."]
+position = Vector2(-24, -24)
+rotation = 0.785398
+points = PackedVector2Array(32, -32, 32, 32)
+default_color = Color(0.0509804, 0.894118, 0.854902, 1)

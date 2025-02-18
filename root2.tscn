@@ -1,0 +1,125 @@
+[gd_scene load_steps=16 format=3 uid="uid://ciefysr6pm2p6"]
+
+[ext_resource type="Script" path="res://root_2.gd" id="1_5fsg6"]
+[ext_resource type="PackedScene" uid="uid://ts7ldilwwn32" path="res://goal.tscn" id="3_3l5bm"]
+[ext_resource type="Texture2D" uid="uid://cgic0kcinqt3y" path="res://icon.svg" id="3_nrjd3"]
+[ext_resource type="PackedScene" uid="uid://cobpt0fiqb05f" path="res://shark.tscn" id="4_enb5x"]
+[ext_resource type="Script" path="res://player_movement.gd" id="4_s00jf"]
+[ext_resource type="Script" path="res://catmull_rom_shape.gd" id="5_fpj1b"]
+[ext_resource type="PackedScene" uid="uid://cafs45scjj4tt" path="res://pulse.tscn" id="5_w7ywu"]
+[ext_resource type="Script" path="res://eye.gd" id="6_0lwod"]
+[ext_resource type="Script" path="res://path_follow_2d.gd" id="6_eg8dr"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_8kmm1"]
+radius = 174.86
+
+[sub_resource type="Curve2D" id="Curve2D_v4vym"]
+_data = {
+"points": PackedVector2Array(-28.5072, -134.528, 28.5072, 134.528, 348.505, 521.665, -23.0764, 52.1357, 23.0764, -52.1357, 588.505, 305.665, -10.8564, -118.434, 10.8564, 118.434, 1052.51, 329.665, -22.4214, 72.3891, 22.4214, -72.3891, 820.505, 401.665, 52.8819, 27.9605, -52.8819, -27.9605, 1092.51, 129.665)
+}
+point_count = 5
+
+[sub_resource type="Gradient" id="Gradient_1vrey"]
+offsets = PackedFloat32Array(0.78, 0.789973)
+colors = PackedColorArray(1, 1, 1, 0.392157, 0.0509804, 0.780392, 0.854902, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_nksiw"]
+gradient = SubResource("Gradient_1vrey")
+width = 32
+height = 10
+repeat = 1
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_mcha4"]
+radius = 30.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_sa6bp"]
+custom_solver_bias = 1.0
+radius = 30.0
+
+[node name="Root2" type="Node2D"]
+script = ExtResource("1_5fsg6")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 1152.0
+offset_bottom = 648.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.0509804, 0.780392, 0.854902, 1)
+
+[node name="CatmullRomShape" type="Node2D" parent="."]
+process_mode = 4
+visible = false
+position = Vector2(64, 312)
+script = ExtResource("5_fpj1b")
+points = PackedVector2Array(216, 264, 256, 24, 120, 64, 0, 0, 16, 144, 8, 232, 72, 232, 96, 264, 136, 232, 152, 264)
+border_color = Color(1, 1, 1, 1)
+fill_color = Color(1, 0.905882, 0.435294, 1)
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="CatmullRomShape"]
+motion_mode = 1
+wall_min_slide_angle = 0.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CatmullRomShape/CharacterBody2D"]
+position = Vector2(112, 120)
+shape = SubResource("CircleShape2D_8kmm1")
+
+[node name="Path2D" type="Path2D" parent="."]
+position = Vector2(-196.505, 6.33531)
+curve = SubResource("Curve2D_v4vym")
+
+[node name="Line2D" type="Line2D" parent="Path2D"]
+texture_repeat = 2
+points = PackedVector2Array(0, 0, 100, 0)
+texture = SubResource("GradientTexture2D_nksiw")
+texture_mode = 1
+
+[node name="Goal" parent="Path2D/Line2D" instance=ExtResource("3_3l5bm")]
+
+[node name="PathFollow2D" type="PathFollow2D" parent="Path2D" node_paths=PackedStringArray("line")]
+position = Vector2(348.505, 521.665)
+rotation = 1.36198
+script = ExtResource("6_eg8dr")
+line = NodePath("../Line2D")
+
+[node name="Eye" type="Node2D" parent="Path2D/PathFollow2D"]
+script = ExtResource("6_0lwod")
+
+[node name="Area2D" type="Area2D" parent="Path2D/PathFollow2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Path2D/PathFollow2D/Area2D"]
+shape = SubResource("CircleShape2D_mcha4")
+
+[node name="Pulse" parent="Path2D/PathFollow2D" instance=ExtResource("5_w7ywu")]
+
+[node name="Player" type="Area2D" parent="."]
+collision_layer = 0
+
+[node name="Sprite2D" type="Sprite2D" parent="Player"]
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("3_nrjd3")
+
+[node name="PlayerMovement" type="Node" parent="Player" node_paths=PackedStringArray("player")]
+script = ExtResource("4_s00jf")
+player = NodePath("..")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
+shape = SubResource("CircleShape2D_sa6bp")
+
+[node name="Shark" parent="." instance=ExtResource("4_enb5x")]
+
+[node name="Shark2" parent="." instance=ExtResource("4_enb5x")]
+position = Vector2(200, 0)
+
+[node name="Shark3" parent="." instance=ExtResource("4_enb5x")]
+position = Vector2(400, 400)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(576, 324)
+
+[connection signal="mouse_entered" from="Path2D/PathFollow2D/Area2D" to="Path2D/PathFollow2D" method="_on_area_2d_mouse_entered"]
+[connection signal="mouse_exited" from="Path2D/PathFollow2D/Area2D" to="Path2D/PathFollow2D" method="_on_area_2d_mouse_exited"]
+[connection signal="body_entered" from="Player" to="." method="_on_player_body_entered"]
