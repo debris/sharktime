@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://ciefysr6pm2p6"]
+[gd_scene load_steps=18 format=3 uid="uid://ciefysr6pm2p6"]
 
 [ext_resource type="Script" path="res://game.gd" id="1_838ix"]
 [ext_resource type="Script" path="res://camera_2d.gd" id="2_vpi6b"]
@@ -12,6 +12,7 @@
 [ext_resource type="Script" path="res://follow_cursor.gd" id="8_c3yon"]
 [ext_resource type="Script" path="res://spawn_anchor.gd" id="9_kqxib"]
 [ext_resource type="Script" path="res://touch_shark.gd" id="10_xtg51"]
+[ext_resource type="AudioStream" uid="uid://fkg8wdiiqc70" path="res://res/correct_ding.mp3" id="13_8gp5p"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_dbv7m"]
 
@@ -33,29 +34,27 @@ script = ExtResource("2_vpi6b")
 [node name="Sharks" type="Node2D" parent="."]
 
 [node name="Shark" parent="Sharks" instance=ExtResource("3_w2i2x")]
+position = Vector2(400, 400)
 
 [node name="Shark2" parent="Sharks" instance=ExtResource("3_w2i2x")]
-position = Vector2(200, 0)
+position = Vector2(300, 600)
 
 [node name="Shark3" parent="Sharks" instance=ExtResource("3_w2i2x")]
-position = Vector2(400, 400)
+position = Vector2(400, 800)
 
 [node name="Targets" type="Node2D" parent="."]
 
 [node name="TargetArea" parent="Targets" instance=ExtResource("4_hupkd")]
 position = Vector2(1288, 512)
 radius = 200.0
-color = Color(1, 1, 1, 0.4)
 
 [node name="TargetArea2" parent="Targets" instance=ExtResource("4_hupkd")]
 position = Vector2(768, 888)
 radius = 200.0
-color = Color(1, 1, 1, 0.4)
 
 [node name="TargetArea3" parent="Targets" instance=ExtResource("4_hupkd")]
 position = Vector2(1352, 976)
 radius = 200.0
-color = Color(1, 1, 1, 0.4)
 
 [node name="Anchors" type="Node2D" parent="."]
 
@@ -177,6 +176,9 @@ anchors = NodePath("../Anchors")
 
 [node name="TouchShark" type="Node" parent="."]
 script = ExtResource("10_xtg51")
+
+[node name="DingSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("13_8gp5p")
 
 [connection signal="spawned" from="SharkSpawn" to="." method="_on_shark_spawn_spawned"]
 [connection signal="pressed" from="CanvasLayer/Control/BackButton" to="." method="_on_back_button_pressed"]

@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://c350ut0ihpvsj"]
+
+[ext_resource type="FontVariation" uid="uid://d1vul3qcu5sb8" path="res://res/game_font.tres" id="1_eatqp"]
+[ext_resource type="Script" path="res://notification.gd" id="1_t0qvf"]
+
+[node name="Notification" type="Node2D"]
+script = ExtResource("1_t0qvf")
+
+[node name="Label" type="Label" parent="."]
+offset_left = -64.0
+offset_top = -64.0
+offset_right = 64.0
+offset_bottom = 64.0
+theme_override_fonts/font = ExtResource("1_eatqp")
+theme_override_font_sizes/font_size = 48
+text = "+50"
+horizontal_alignment = 1
+vertical_alignment = 1

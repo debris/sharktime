@@ -14,6 +14,8 @@ class_name TargetArea
 		color = value
 		queue_redraw()
 
+@export var ding_sound: AudioStreamPlayer2D
+
 @onready var collision_shape = $Area2D/CollisionShape2D
 
 var sharks_inside := 0:
@@ -51,6 +53,8 @@ func _draw() -> void:
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body is CreatureHead:
 		sharks_inside += 1
+		if sharks_inside == 1 && ding_sound != null:
+			ding_sound.play()
 
 func _on_area_2d_body_exited(body: Node2D) -> void:
 	if body is CreatureHead:

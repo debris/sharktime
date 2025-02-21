@@ -1,6 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://c2r17vdv2loob"]
+[gd_scene load_steps=9 format=3 uid="uid://c2r17vdv2loob"]
 
 [ext_resource type="Script" path="res://main_menu.gd" id="1_7r5lf"]
+[ext_resource type="FontFile" uid="uid://mgn52mc86n0d" path="res://res/Study Case.otf" id="2_ro38n"]
 [ext_resource type="FontVariation" uid="uid://d1vul3qcu5sb8" path="res://res/game_font.tres" id="2_yjpux"]
 [ext_resource type="PackedScene" uid="uid://buq4p4mdkxqe4" path="res://water_shader_node.tscn" id="3_ogrpw"]
 
@@ -20,6 +21,19 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_7r5lf")
+
+[node name="Title" type="Label" parent="."]
+custom_minimum_size = Vector2(0, 160)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 83.0
+grow_horizontal = 2
+theme_override_fonts/font = ExtResource("2_ro38n")
+theme_override_font_sizes/font_size = 80
+text = "SHARKTIME"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="ShaderRoot" parent="." instance=ExtResource("3_ogrpw")]
 scale = Vector2(0.5, 0.5)

@@ -7,6 +7,7 @@ signal restart_pressed
 @onready var targets: Node2D = $Targets
 @onready var score_label: Label = $CanvasLayer/Control/ScoreLabel
 @onready var time_label: Label = $CanvasLayer/Control/TimeLabel
+@onready var ding_sound: AudioStreamPlayer2D = $DingSound
 
 var time := 0.0
 var current_target_index := 0
@@ -33,6 +34,7 @@ func add_targets():
 
 	for t in new_targets:
 		var target_area = preload("res://target_area.tscn").instantiate()
+		target_area.ding_sound = ding_sound
 		target_area.radius = 200.0
 		target_area.position = Vector2(width, height) * t
 		targets.add_child(target_area)
@@ -55,6 +57,12 @@ func _process(delta: float) -> void:
 
 	if are_sharks_in_targets():
 		score += targets.get_child_count() * 50
+		for target in targets.get_children():
+			var n = preload("res://notification.tscn").instantiate()
+			n.global_position = target.global_position
+			# it's autoreleasing
+			add_child(n)
+
 		clear_targets()
 		add_targets()
 
