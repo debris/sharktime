@@ -1,6 +1,16 @@
-[gd_scene load_steps=2 format=3 uid="uid://c2r17vdv2loob"]
+[gd_scene load_steps=8 format=3 uid="uid://c2r17vdv2loob"]
 
 [ext_resource type="Script" path="res://main_menu.gd" id="1_7r5lf"]
+[ext_resource type="FontVariation" uid="uid://d1vul3qcu5sb8" path="res://res/game_font.tres" id="2_yjpux"]
+[ext_resource type="PackedScene" uid="uid://buq4p4mdkxqe4" path="res://water_shader_node.tscn" id="3_ogrpw"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_cfeb2"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ygocx"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mgv6f"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_trjk6"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -11,21 +21,39 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_7r5lf")
 
-[node name="StartButton" type="Button" parent="."]
-layout_mode = 0
-offset_left = 584.0
-offset_top = 232.0
-offset_right = 630.0
-offset_bottom = 263.0
-text = "Start"
+[node name="ShaderRoot" parent="." instance=ExtResource("3_ogrpw")]
+scale = Vector2(0.5, 0.5)
 
-[node name="QuitButton" type="Button" parent="."]
-layout_mode = 0
-offset_left = 584.0
-offset_top = 280.0
-offset_right = 630.0
-offset_bottom = 311.0
-text = "Quit"
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[connection signal="pressed" from="StartButton" to="." method="_on_start_button_pressed"]
-[connection signal="pressed" from="QuitButton" to="." method="_on_quit_button_pressed"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+layout_mode = 2
+
+[node name="StartButton" type="Button" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_yjpux")
+theme_override_font_sizes/font_size = 48
+theme_override_styles/focus = SubResource("StyleBoxEmpty_cfeb2")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_ygocx")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_mgv6f")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_trjk6")
+text = " Start "
+
+[node name="QuitButton" type="Button" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_yjpux")
+theme_override_font_sizes/font_size = 48
+theme_override_styles/focus = SubResource("StyleBoxEmpty_cfeb2")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_ygocx")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_mgv6f")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_trjk6")
+text = " Quit "
+
+[connection signal="pressed" from="CenterContainer/VBoxContainer/StartButton" to="." method="_on_start_button_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]

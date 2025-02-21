@@ -1,6 +1,7 @@
 extends Node2D
 class_name Anchor
 
+signal on_left_click
 signal on_right_click
 signal on_touch_shark(creature: Creature)
 
@@ -13,7 +14,9 @@ func _process(delta: float) -> void:
 	ball.position.y = 30.0 * sin(time)
 
 func _on_area_2d_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
-	if event.is_action_released("right_click"):
+	if event.is_action_released("left_click"):
+		on_left_click.emit()		
+	elif event.is_action_released("right_click"):
 		on_right_click.emit()
 
 func _on_area_2d_body_entered(body: Node2D) -> void:

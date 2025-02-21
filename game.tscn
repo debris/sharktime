@@ -1,43 +1,29 @@
-[gd_scene load_steps=16 format=3 uid="uid://ciefysr6pm2p6"]
+[gd_scene load_steps=17 format=3 uid="uid://ciefysr6pm2p6"]
 
 [ext_resource type="Script" path="res://game.gd" id="1_838ix"]
 [ext_resource type="Script" path="res://camera_2d.gd" id="2_vpi6b"]
 [ext_resource type="PackedScene" uid="uid://cobpt0fiqb05f" path="res://shark.tscn" id="3_w2i2x"]
 [ext_resource type="PackedScene" uid="uid://f4f5ifsaijeb" path="res://target_area.tscn" id="4_hupkd"]
-[ext_resource type="Shader" path="res://water.gdshader" id="5_ilffw"]
+[ext_resource type="PackedScene" uid="uid://buq4p4mdkxqe4" path="res://water_shader_node.tscn" id="5_0ckio"]
 [ext_resource type="PackedScene" uid="uid://0i4hugebyweh" path="res://shark_spawn.tscn" id="6_a4djn"]
 [ext_resource type="PackedScene" uid="uid://djudnxsm1gvta" path="res://anchor.tscn" id="7_bhqvp"]
+[ext_resource type="FontVariation" uid="uid://d1vul3qcu5sb8" path="res://res/game_font.tres" id="7_vlssj"]
+[ext_resource type="PackedScene" uid="uid://clrcktt5d0pui" path="res://hints.tscn" id="8_6ly2g"]
 [ext_resource type="Script" path="res://follow_cursor.gd" id="8_c3yon"]
 [ext_resource type="Script" path="res://spawn_anchor.gd" id="9_kqxib"]
 [ext_resource type="Script" path="res://touch_shark.gd" id="10_xtg51"]
 
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_bghbu"]
-noise_type = 5
-seed = 3
-frequency = 0.0746
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_dbv7m"]
 
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_phc54"]
-seamless = true
-noise = SubResource("FastNoiseLite_bghbu")
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_5qx4r"]
 
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_yavjc"]
-seed = 51
-frequency = 0.1339
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_g0j1k"]
 
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_0ufgw"]
-seamless = true
-noise = SubResource("FastNoiseLite_yavjc")
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_xqmiw"]
-shader = ExtResource("5_ilffw")
-shader_parameter/distortion = 0.002
-shader_parameter/speed = Vector2(0.05, 0.05)
-shader_parameter/speed2 = Vector2(-0.05, -0.05)
-shader_parameter/noise_texture = SubResource("NoiseTexture2D_phc54")
-shader_parameter/noise_texture2 = SubResource("NoiseTexture2D_0ufgw")
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hfyol"]
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_838ix")
+metadata/_edit_vertical_guides_ = [1152.0]
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(1152, 648)
@@ -73,20 +59,7 @@ color = Color(1, 1, 1, 0.4)
 
 [node name="Anchors" type="Node2D" parent="."]
 
-[node name="ShaderRoot" type="Node2D" parent="."]
-position = Vector2(0, 2)
-
-[node name="Parallax2D" type="Parallax2D" parent="ShaderRoot"]
-repeat_size = Vector2(1152, 648)
-repeat_times = 3
-ignore_camera_scroll = true
-
-[node name="WaterEffect" type="ColorRect" parent="ShaderRoot/Parallax2D"]
-texture_repeat = 2
-material = SubResource("ShaderMaterial_xqmiw")
-offset_right = 1152.0
-offset_bottom = 648.0
-mouse_filter = 2
+[node name="ShaderRoot" parent="." instance=ExtResource("5_0ckio")]
 
 [node name="SharkSpawn" parent="." instance=ExtResource("6_a4djn")]
 scale = Vector2(2, 2)
@@ -110,6 +83,7 @@ anchors_preset = 10
 anchor_right = 1.0
 offset_bottom = 23.0
 grow_horizontal = 2
+theme_override_fonts/font = ExtResource("7_vlssj")
 theme_override_font_sizes/font_size = 40
 text = "0"
 horizontal_alignment = 1
@@ -125,6 +99,7 @@ anchor_bottom = 1.0
 offset_top = -55.0
 grow_horizontal = 2
 grow_vertical = 0
+theme_override_fonts/font = ExtResource("7_vlssj")
 theme_override_font_sizes/font_size = 40
 text = "0:00"
 horizontal_alignment = 1
@@ -138,6 +113,7 @@ anchor_right = 1.0
 offset_top = 48.0
 offset_bottom = 76.0
 grow_horizontal = 2
+theme_override_fonts/font = ExtResource("7_vlssj")
 theme_override_font_sizes/font_size = 20
 text = "SCORE"
 horizontal_alignment = 1
@@ -147,9 +123,15 @@ vertical_alignment = 1
 custom_minimum_size = Vector2(96, 48)
 layout_mode = 1
 offset_left = 24.0
-offset_top = 24.0
+offset_top = 12.0
 offset_right = 120.0
-offset_bottom = 72.0
+offset_bottom = 60.0
+theme_override_fonts/font = ExtResource("7_vlssj")
+theme_override_font_sizes/font_size = 24
+theme_override_styles/focus = SubResource("StyleBoxEmpty_dbv7m")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_5qx4r")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_g0j1k")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_hfyol")
 text = "BACK"
 
 [node name="RestartButton" type="Button" parent="CanvasLayer/Control"]
@@ -159,11 +141,29 @@ anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
 offset_left = -120.0
-offset_top = 24.0
+offset_top = 12.0
 offset_right = -24.0
-offset_bottom = 72.0
+offset_bottom = 60.0
 grow_horizontal = 0
+theme_override_fonts/font = ExtResource("7_vlssj")
+theme_override_font_sizes/font_size = 24
+theme_override_styles/focus = SubResource("StyleBoxEmpty_dbv7m")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_5qx4r")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_g0j1k")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_hfyol")
 text = "RESTART"
+
+[node name="Hints" parent="CanvasLayer/Control" instance=ExtResource("8_6ly2g")]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_bottom = 0.0
+offset_left = -272.0
+offset_top = 64.0
+offset_right = -16.0
+offset_bottom = 160.0
+grow_horizontal = 0
+grow_vertical = 1
 
 [node name="Anchor" parent="." instance=ExtResource("7_bhqvp")]
 
@@ -181,4 +181,5 @@ script = ExtResource("10_xtg51")
 [connection signal="spawned" from="SharkSpawn" to="." method="_on_shark_spawn_spawned"]
 [connection signal="pressed" from="CanvasLayer/Control/BackButton" to="." method="_on_back_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/Control/RestartButton" to="." method="_on_restart_button_pressed"]
+[connection signal="on_left_click" from="Anchor" to="SpawnAnchor" method="_spawn_anchor"]
 [connection signal="on_touch_shark" from="Anchor" to="TouchShark" method="_on_touch_shark"]
