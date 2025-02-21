@@ -1,0 +1,33 @@
+[gd_scene load_steps=4 format=3 uid="uid://djudnxsm1gvta"]
+
+[ext_resource type="Script" path="res://anchor.gd" id="1_nf5gs"]
+[ext_resource type="Texture2D" uid="uid://tabq6tfssjvh" path="res://ball.png" id="2_64cko"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3pwfp"]
+size = Vector2(32, 32)
+
+[node name="Anchor" type="Node2D"]
+script = ExtResource("1_nf5gs")
+
+[node name="Label" type="Label" parent="."]
+visible = false
+offset_left = -40.0
+offset_top = -24.0
+offset_right = 40.0
+offset_bottom = 24.0
+text = "O"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_3pwfp")
+
+[node name="Ball" type="Sprite2D" parent="."]
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("2_64cko")
+
+[connection signal="input_event" from="Area2D" to="." method="_on_area_2d_input_event"]

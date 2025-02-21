@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://cobpt0fiqb05f"]
+[gd_scene load_steps=12 format=3 uid="uid://cobpt0fiqb05f"]
 
 [ext_resource type="Script" path="res://shark.gd" id="1_qitrd"]
 [ext_resource type="Script" path="res://creature.gd" id="1_y6mss"]
@@ -50,6 +50,9 @@ _data = {
 custom_solver_bias = 1.0
 radius = 25.0
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_af2c7"]
+radius = 1000.0
+
 [node name="Shark" type="Node2D"]
 script = ExtResource("1_qitrd")
 
@@ -60,8 +63,8 @@ speed = 400.0
 speed_multiplier = 0.2
 
 [node name="Segment" type="Node2D" parent="Creature"]
-position = Vector2(111.92, -184.614)
-rotation = 17744.4
+position = Vector2(-142.286, -155.891)
+rotation = 18528.3
 script = ExtResource("2_d5x32")
 distance_constraint = 20.0
 body_size = 25.0
@@ -69,16 +72,19 @@ body_size = 25.0
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="Creature/Segment"]
 remote_path = NodePath("../../../EyeSocket")
 
+[node name="RemoteTransform2D2" type="RemoteTransform2D" parent="Creature/Segment"]
+remote_path = NodePath("../../../AnchorScanner")
+
 [node name="Segment2" type="Node2D" parent="Creature"]
-position = Vector2(94.8923, -195.105)
-rotation = 0.552161
+position = Vector2(-154.584, -140.119)
+rotation = -0.908505
 script = ExtResource("2_d5x32")
 distance_constraint = 20.0
 body_size = 27.0
 
 [node name="Segment3" type="Node2D" parent="Creature"]
-position = Vector2(77.0052, -204.052)
-rotation = 0.463809
+position = Vector2(-165.443, -123.324)
+rotation = -0.996875
 script = ExtResource("2_d5x32")
 distance_constraint = 20.0
 body_size = 24.0
@@ -99,29 +105,29 @@ border_color = Color(1, 1, 1, 1)
 fill_color = Color(0.0509804, 0.658824, 0.854902, 1)
 
 [node name="Segment4" type="Node2D" parent="Creature"]
-position = Vector2(58.396, -211.38)
-rotation = 0.375129
+position = Vector2(-174.77, -105.632)
+rotation = -1.08561
 script = ExtResource("2_d5x32")
 distance_constraint = 20.0
 body_size = 20.0
 
 [node name="Segment7" type="Node2D" parent="Creature"]
-position = Vector2(39.2092, -217.025)
-rotation = 0.286153
+position = Vector2(-182.486, -87.1801)
+rotation = -1.17473
 script = ExtResource("2_d5x32")
 distance_constraint = 20.0
 body_size = 15.0
 
 [node name="Segment5" type="Node2D" parent="Creature"]
-position = Vector2(19.5957, -220.938)
-rotation = 0.196912
+position = Vector2(-188.522, -68.1127)
+rotation = -1.26422
 script = ExtResource("2_d5x32")
 distance_constraint = 20.0
 body_size = 10.0
 
 [node name="Segment6" type="Node2D" parent="Creature"]
-position = Vector2(-0.289026, -223.082)
-rotation = 0.107406
+position = Vector2(-192.822, -48.5804)
+rotation = -1.3541
 script = ExtResource("2_d5x32")
 distance_constraint = 20.0
 body_size = 5.0
@@ -140,8 +146,8 @@ border_color = Color(1, 1, 1, 1)
 fill_color = Color(0.0509804, 0.658824, 0.854902, 1)
 
 [node name="Segment8" type="Node2D" parent="Creature"]
-position = Vector2(-20.2859, -223.434)
-rotation = 0.0176204
+position = Vector2(-195.344, -28.74)
+rotation = -1.44436
 script = ExtResource("2_d5x32")
 distance_constraint = 20.0
 body_size = 4.0
@@ -153,19 +159,19 @@ libraries = {
 
 [node name="CatmullRomShape" type="Node2D" parent="."]
 script = ExtResource("4_h7dar")
-points = PackedVector2Array(-21.6274, -219.457, -2.08861, -218.247, 16.4162, -211.375, 33.8016, -202.981, 49.952, -193.211, 65.2119, -183.117, 79.7344, -172.731, 96.0452, -165.266, 114.62, -160.697, 130.988, -170.595, 135.567, -189.168, 125.676, -205.541, 107.789, -218.872, 86.4332, -226.171, 64.3895, -230.514, 42.101, -231.81, 20.2144, -231.011, -1.07465, -228.196, -21.5331, -227.457)
+points = PackedVector2Array(-191.536, -26.9749, -188.212, -46.2644, -179.365, -63.9059, -169.12, -80.2647, -157.638, -95.2434, -145.93, -109.301, -134.012, -122.594, -124.8, -137.986, -118.216, -155.945, -126.256, -173.302, -144.213, -179.895, -161.573, -171.863, -176.79, -155.55, -186.391, -135.125, -193.13, -113.691, -196.864, -91.6762, -198.467, -69.83, -197.991, -48.3572, -199.478, -27.9372)
 border_color = Color(1, 1, 1, 1)
 fill_color = Color(0.0526073, 0.565235, 0.85546, 1)
 
 [node name="TopFin" type="Node2D" parent="."]
 script = ExtResource("4_h7dar")
-points = PackedVector2Array(93.7618, -195.801, 75.8226, -204.644, 57.1708, -211.862, 37.9513, -217.395)
+points = PackedVector2Array(-155.401, -139.072, -166.161, -122.213, -175.384, -104.467, -182.992, -85.9704)
 border_color = Color(1, 1, 1, 1)
 fill_color = Color(0.0509804, 0.658824, 0.854902, 1)
 
 [node name="EyeSocket" type="Node2D" parent="."]
-position = Vector2(111.92, -184.614)
-rotation = 0.640161
+position = Vector2(-142.286, -155.891)
+rotation = -0.820502
 
 [node name="LeftEye" type="Node2D" parent="EyeSocket"]
 position = Vector2(0, -20)
@@ -176,9 +182,9 @@ position = Vector2(0, 20)
 script = ExtResource("5_0hu1p")
 
 [node name="CharacterBody2D" type="CharacterBody2D" parent="." node_paths=PackedStringArray("creature")]
-position = Vector2(111.92, -184.614)
+position = Vector2(-142.286, -155.891)
 rotation = -1.53531
-scale = Vector2(0.999849, 0.999849)
+scale = Vector2(0.999858, 0.999858)
 motion_mode = 1
 wall_min_slide_angle = 0.0
 script = ExtResource("6_ijg78")
@@ -187,3 +193,15 @@ creature = NodePath("../Creature")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
 rotation = 1.5708
 shape = SubResource("CircleShape2D_xd76a")
+
+[node name="AnchorScanner" type="Area2D" parent="."]
+position = Vector2(-142.286, -155.891)
+rotation = -0.820502
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AnchorScanner"]
+shape = SubResource("CircleShape2D_af2c7")
+
+[connection signal="area_entered" from="AnchorScanner" to="." method="_on_anchor_scanner_area_entered"]
+[connection signal="area_exited" from="AnchorScanner" to="." method="_on_anchor_scanner_area_exited"]

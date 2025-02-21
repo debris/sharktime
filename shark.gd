@@ -8,8 +8,24 @@ class_name Shark
 @onready var catmull_rom_shape: CatmullRomShape = $CatmullRomShape
 @onready var top_fin: CatmullRomShape = $TopFin
 
+var anchors = {}
+
+func _get_closest_anchor() -> Vector2:
+	# if there are no anchors, return old target_position
+	if anchors.size() == 0:
+		return target_position
+
+	var closest = null
+	var head = creature.get_segments()[0]
+	for anchor in anchors.keys():
+		if closest == null || head.global_position.distance_to(anchor.global_position) < head.global_position.distance_to(closest):
+			closest = anchor.global_position
+
+	return closest
+
 func _process(_delta: float) -> void:
-	creature.target_position = target_position
+	target_position = _get_closest_anchor()
+	creature.target_position = target_position - position
 
 	var segments = creature.get_segments()
 	var left_points = []
@@ -42,3 +58,10 @@ func _process(_delta: float) -> void:
 	catmull_rom_shape.points = right_points
 
 	top_fin.points = [segments[1].position, segments[2].position, segments[3].position, segments[4].position]
+
+
+func _on_anchor_scanner_area_entered(area: Area2D) -> void:
+	anchors[area] = null
+
+func _on_anchor_scanner_area_exited(area: Area2D) -> void:
+	anchors.erase(area)

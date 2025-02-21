@@ -38,6 +38,13 @@ func _process(delta: float) -> void:
 
 	# calculate the collisions with other fish	
 	var collision = head_body.move_and_collide(motion)
+	#if collision:
+	#	head_body.velocity = head_body.velocity.slide(collision.get_normal())
+	#	head_body.move_and_slide()
+	#else:
+	#	head_body.position += motion
+
+
 	if collision:
 		var collision_normal = collision.get_normal()
 		var remaining_motion = collision.get_remainder()

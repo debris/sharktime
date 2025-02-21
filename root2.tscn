@@ -1,102 +1,94 @@
-[gd_scene load_steps=16 format=3 uid="uid://ciefysr6pm2p6"]
+[gd_scene load_steps=24 format=3 uid="uid://ciefysr6pm2p6"]
 
 [ext_resource type="Script" path="res://root_2.gd" id="1_5fsg6"]
-[ext_resource type="PackedScene" uid="uid://ts7ldilwwn32" path="res://goal.tscn" id="3_3l5bm"]
+[ext_resource type="Shader" path="res://water.gdshader" id="2_exk4k"]
+[ext_resource type="Script" path="res://camera_2d.gd" id="2_jnenp"]
 [ext_resource type="Texture2D" uid="uid://cgic0kcinqt3y" path="res://icon.svg" id="3_nrjd3"]
+[ext_resource type="PackedScene" uid="uid://dhko3nrs46lct" path="res://rescue_path.tscn" id="3_qn4o3"]
 [ext_resource type="PackedScene" uid="uid://cobpt0fiqb05f" path="res://shark.tscn" id="4_enb5x"]
+[ext_resource type="Curve2D" uid="uid://c0b7s7saoqwup" path="res://paths/default.tres" id="4_etvdr"]
 [ext_resource type="Script" path="res://player_movement.gd" id="4_s00jf"]
 [ext_resource type="Script" path="res://catmull_rom_shape.gd" id="5_fpj1b"]
-[ext_resource type="PackedScene" uid="uid://cafs45scjj4tt" path="res://pulse.tscn" id="5_w7ywu"]
-[ext_resource type="Script" path="res://eye.gd" id="6_0lwod"]
-[ext_resource type="Script" path="res://path_follow_2d.gd" id="6_eg8dr"]
+[ext_resource type="Curve2D" uid="uid://d371xqf4eak4p" path="res://paths/2.tres" id="6_4q207"]
+[ext_resource type="PackedScene" uid="uid://cworw7l75yc5u" path="res://path_highlight.tscn" id="8_8nw1p"]
+[ext_resource type="PackedScene" uid="uid://0i4hugebyweh" path="res://shark_spawn.tscn" id="12_5tbpq"]
+[ext_resource type="PackedScene" uid="uid://f4f5ifsaijeb" path="res://target_area.tscn" id="13_i2mmp"]
+[ext_resource type="PackedScene" uid="uid://djudnxsm1gvta" path="res://anchor.tscn" id="14_x488e"]
+[ext_resource type="Script" path="res://follow_cursor.gd" id="15_cdi44"]
+[ext_resource type="Script" path="res://spawn_anchor.gd" id="16_dyd8a"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_8kmm1"]
-radius = 174.86
-
-[sub_resource type="Curve2D" id="Curve2D_v4vym"]
-_data = {
-"points": PackedVector2Array(-28.5072, -134.528, 28.5072, 134.528, 348.505, 521.665, -23.0764, 52.1357, 23.0764, -52.1357, 588.505, 305.665, -10.8564, -118.434, 10.8564, 118.434, 1052.51, 329.665, -22.4214, 72.3891, 22.4214, -72.3891, 820.505, 401.665, 52.8819, 27.9605, -52.8819, -27.9605, 1092.51, 129.665)
-}
-point_count = 5
-
-[sub_resource type="Gradient" id="Gradient_1vrey"]
-offsets = PackedFloat32Array(0.78, 0.789973)
-colors = PackedColorArray(1, 1, 1, 0.392157, 0.0509804, 0.780392, 0.854902, 1)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_nksiw"]
-gradient = SubResource("Gradient_1vrey")
-width = 32
-height = 10
-repeat = 1
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_mcha4"]
-radius = 30.0
+[sub_resource type="CircleShape2D" id="CircleShape2D_peor7"]
+radius = 100.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_sa6bp"]
 custom_solver_bias = 1.0
 radius = 30.0
 
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_bghbu"]
+noise_type = 5
+seed = 3
+frequency = 0.0746
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_phc54"]
+seamless = true
+noise = SubResource("FastNoiseLite_bghbu")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_yavjc"]
+seed = 51
+frequency = 0.1339
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_0ufgw"]
+seamless = true
+noise = SubResource("FastNoiseLite_yavjc")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xqmiw"]
+shader = ExtResource("2_exk4k")
+shader_parameter/distortion = 0.002
+shader_parameter/speed = Vector2(0.05, 0.05)
+shader_parameter/speed2 = Vector2(-0.05, -0.05)
+shader_parameter/noise_texture = SubResource("NoiseTexture2D_phc54")
+shader_parameter/noise_texture2 = SubResource("NoiseTexture2D_0ufgw")
+
 [node name="Root2" type="Node2D"]
 script = ExtResource("1_5fsg6")
 
-[node name="ColorRect" type="ColorRect" parent="."]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_right = 1152.0
-offset_bottom = 648.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-color = Color(0.0509804, 0.780392, 0.854902, 1)
+[node name="RescuePath2" parent="." instance=ExtResource("3_qn4o3")]
+process_mode = 4
+curve = ExtResource("6_4q207")
 
-[node name="CatmullRomShape" type="Node2D" parent="."]
+[node name="CharacterBody2D" type="StaticBody2D" parent="."]
 process_mode = 4
 visible = false
-position = Vector2(64, 312)
+position = Vector2(144, 504)
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
+shape = SubResource("CircleShape2D_peor7")
+
+[node name="CatmullRomShape" type="Node2D" parent="CharacterBody2D"]
 script = ExtResource("5_fpj1b")
-points = PackedVector2Array(216, 264, 256, 24, 120, 64, 0, 0, 16, 144, 8, 232, 72, 232, 96, 264, 136, 232, 152, 264)
+points = PackedVector2Array(-50, -100, 0, -100, 74, 0, 0, 100)
 border_color = Color(1, 1, 1, 1)
-fill_color = Color(1, 0.905882, 0.435294, 1)
+fill_color = Color(0.85, 0.703517, 0.051, 1)
 
-[node name="CharacterBody2D" type="CharacterBody2D" parent="CatmullRomShape"]
-motion_mode = 1
-wall_min_slide_angle = 0.0
+[node name="PathHighlight" parent="." instance=ExtResource("8_8nw1p")]
+process_mode = 4
+visible = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CatmullRomShape/CharacterBody2D"]
-position = Vector2(112, 120)
-shape = SubResource("CircleShape2D_8kmm1")
+[node name="RescuePath" parent="." instance=ExtResource("3_qn4o3")]
+process_mode = 4
+visible = false
+curve = ExtResource("4_etvdr")
 
-[node name="Path2D" type="Path2D" parent="."]
-position = Vector2(-196.505, 6.33531)
-curve = SubResource("Curve2D_v4vym")
-
-[node name="Line2D" type="Line2D" parent="Path2D"]
-texture_repeat = 2
-points = PackedVector2Array(0, 0, 100, 0)
-texture = SubResource("GradientTexture2D_nksiw")
-texture_mode = 1
-
-[node name="Goal" parent="Path2D/Line2D" instance=ExtResource("3_3l5bm")]
-
-[node name="PathFollow2D" type="PathFollow2D" parent="Path2D" node_paths=PackedStringArray("line")]
-position = Vector2(348.505, 521.665)
-rotation = 1.36198
-script = ExtResource("6_eg8dr")
-line = NodePath("../Line2D")
-
-[node name="Eye" type="Node2D" parent="Path2D/PathFollow2D"]
-script = ExtResource("6_0lwod")
-
-[node name="Area2D" type="Area2D" parent="Path2D/PathFollow2D"]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Path2D/PathFollow2D/Area2D"]
-shape = SubResource("CircleShape2D_mcha4")
-
-[node name="Pulse" parent="Path2D/PathFollow2D" instance=ExtResource("5_w7ywu")]
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(1152, 648)
+zoom = Vector2(0.5, 0.5)
+script = ExtResource("2_jnenp")
 
 [node name="Player" type="Area2D" parent="."]
+position = Vector2(0, -2)
 collision_layer = 0
+input_pickable = false
 
 [node name="Sprite2D" type="Sprite2D" parent="Player"]
 scale = Vector2(0.1, 0.1)
@@ -117,9 +109,80 @@ position = Vector2(200, 0)
 [node name="Shark3" parent="." instance=ExtResource("4_enb5x")]
 position = Vector2(400, 400)
 
-[node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(576, 324)
+[node name="Sharks" type="Node2D" parent="."]
 
-[connection signal="mouse_entered" from="Path2D/PathFollow2D/Area2D" to="Path2D/PathFollow2D" method="_on_area_2d_mouse_entered"]
-[connection signal="mouse_exited" from="Path2D/PathFollow2D/Area2D" to="Path2D/PathFollow2D" method="_on_area_2d_mouse_exited"]
+[node name="Targets" type="Node2D" parent="."]
+
+[node name="TargetArea" parent="Targets" instance=ExtResource("13_i2mmp")]
+position = Vector2(1288, 512)
+radius = 200.0
+color = Color(1, 1, 1, 0.4)
+
+[node name="TargetArea2" parent="Targets" instance=ExtResource("13_i2mmp")]
+position = Vector2(768, 888)
+radius = 200.0
+color = Color(1, 1, 1, 0.4)
+
+[node name="TargetArea3" parent="Targets" instance=ExtResource("13_i2mmp")]
+position = Vector2(1352, 976)
+radius = 200.0
+color = Color(1, 1, 1, 0.4)
+
+[node name="Anchors" type="Node2D" parent="."]
+
+[node name="ShaderRoot" type="Node2D" parent="."]
+position = Vector2(0, 2)
+
+[node name="Parallax2D" type="Parallax2D" parent="ShaderRoot"]
+repeat_size = Vector2(1152, 648)
+repeat_times = 3
+ignore_camera_scroll = true
+
+[node name="WaterEffect" type="ColorRect" parent="ShaderRoot/Parallax2D"]
+texture_repeat = 2
+material = SubResource("ShaderMaterial_xqmiw")
+offset_right = 1152.0
+offset_bottom = 648.0
+mouse_filter = 2
+
+[node name="SharkSpawn" parent="." instance=ExtResource("12_5tbpq")]
+scale = Vector2(2, 2)
+autospawn = false
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Control" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="ScoreLabel" type="Label" parent="CanvasLayer/Control"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 23.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 40
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Anchor" parent="." instance=ExtResource("14_x488e")]
+
+[node name="FollowCursor" type="Node" parent="Anchor" node_paths=PackedStringArray("node")]
+script = ExtResource("15_cdi44")
+node = NodePath("..")
+
+[node name="SpawnAnchor" type="Node" parent="." node_paths=PackedStringArray("anchors")]
+script = ExtResource("16_dyd8a")
+anchors = NodePath("../Anchors")
+
+[connection signal="highlight_path" from="RescuePath2" to="PathHighlight" method="_set_points"]
+[connection signal="highlight_path" from="RescuePath" to="PathHighlight" method="_set_points"]
 [connection signal="body_entered" from="Player" to="." method="_on_player_body_entered"]
+[connection signal="spawned" from="SharkSpawn" to="." method="_on_shark_spawn_spawned"]
