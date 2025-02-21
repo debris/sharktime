@@ -1,14 +1,14 @@
 extends Node2D
 
-@onready var shark: Shark = $Shark
-@onready var shark2: Shark = $Shark2
-@onready var shark3: Shark = $Shark3
-@onready var player: Node2D = $Player
+signal back_pressed
+signal restart_pressed
 
 @onready var sharks: Node2D = $Sharks
 @onready var targets: Node2D = $Targets
 @onready var score_label: Label = $CanvasLayer/Control/ScoreLabel
+@onready var time_label: Label = $CanvasLayer/Control/TimeLabel
 
+var time := 0.0
 var current_target_index := 0
 var score := 0:
 	set(value):
@@ -47,25 +47,22 @@ func are_sharks_in_targets() -> bool:
 			return false
 	return true
 
-func _process(_delta: float) -> void:
-	#shark.target_position = player.position
-	#shark2.target_position = player.position - shark2.position
-	#shark3.target_position = player.position - shark3.position
+func _process(delta: float) -> void:
+	time += delta
 
-	#for s in sharks.get_children():
-	#	s.target_position = player.position - s.position
+	@warning_ignore("integer_division")
+	time_label.text = "%d:%02d" % [int(time) / 60, int(time) % 60]
 
 	if are_sharks_in_targets():
 		score += targets.get_child_count() * 50
 		clear_targets()
 		add_targets()
 
-func _on_player_body_entered(body: Node2D) -> void:
-	if body is CreatureHead:
-		var creature = body.creature
-		creature.speed_multiplier = 0.5
-		var tween = create_tween()
-		tween.tween_property(creature, "speed_multiplier", 0.2, 1.0)
-
 func _on_shark_spawn_spawned(new_shark: Shark) -> void:
 	sharks.add_child(new_shark)
+
+func _on_back_button_pressed() -> void:
+	back_pressed.emit()
+
+func _on_restart_button_pressed() -> void:
+	restart_pressed.emit()

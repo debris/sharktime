@@ -1,0 +1,184 @@
+[gd_scene load_steps=16 format=3 uid="uid://ciefysr6pm2p6"]
+
+[ext_resource type="Script" path="res://game.gd" id="1_838ix"]
+[ext_resource type="Script" path="res://camera_2d.gd" id="2_vpi6b"]
+[ext_resource type="PackedScene" uid="uid://cobpt0fiqb05f" path="res://shark.tscn" id="3_w2i2x"]
+[ext_resource type="PackedScene" uid="uid://f4f5ifsaijeb" path="res://target_area.tscn" id="4_hupkd"]
+[ext_resource type="Shader" path="res://water.gdshader" id="5_ilffw"]
+[ext_resource type="PackedScene" uid="uid://0i4hugebyweh" path="res://shark_spawn.tscn" id="6_a4djn"]
+[ext_resource type="PackedScene" uid="uid://djudnxsm1gvta" path="res://anchor.tscn" id="7_bhqvp"]
+[ext_resource type="Script" path="res://follow_cursor.gd" id="8_c3yon"]
+[ext_resource type="Script" path="res://spawn_anchor.gd" id="9_kqxib"]
+[ext_resource type="Script" path="res://touch_shark.gd" id="10_xtg51"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_bghbu"]
+noise_type = 5
+seed = 3
+frequency = 0.0746
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_phc54"]
+seamless = true
+noise = SubResource("FastNoiseLite_bghbu")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_yavjc"]
+seed = 51
+frequency = 0.1339
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_0ufgw"]
+seamless = true
+noise = SubResource("FastNoiseLite_yavjc")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xqmiw"]
+shader = ExtResource("5_ilffw")
+shader_parameter/distortion = 0.002
+shader_parameter/speed = Vector2(0.05, 0.05)
+shader_parameter/speed2 = Vector2(-0.05, -0.05)
+shader_parameter/noise_texture = SubResource("NoiseTexture2D_phc54")
+shader_parameter/noise_texture2 = SubResource("NoiseTexture2D_0ufgw")
+
+[node name="Game" type="Node2D"]
+script = ExtResource("1_838ix")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(1152, 648)
+zoom = Vector2(0.5, 0.5)
+script = ExtResource("2_vpi6b")
+
+[node name="Sharks" type="Node2D" parent="."]
+
+[node name="Shark" parent="Sharks" instance=ExtResource("3_w2i2x")]
+
+[node name="Shark2" parent="Sharks" instance=ExtResource("3_w2i2x")]
+position = Vector2(200, 0)
+
+[node name="Shark3" parent="Sharks" instance=ExtResource("3_w2i2x")]
+position = Vector2(400, 400)
+
+[node name="Targets" type="Node2D" parent="."]
+
+[node name="TargetArea" parent="Targets" instance=ExtResource("4_hupkd")]
+position = Vector2(1288, 512)
+radius = 200.0
+color = Color(1, 1, 1, 0.4)
+
+[node name="TargetArea2" parent="Targets" instance=ExtResource("4_hupkd")]
+position = Vector2(768, 888)
+radius = 200.0
+color = Color(1, 1, 1, 0.4)
+
+[node name="TargetArea3" parent="Targets" instance=ExtResource("4_hupkd")]
+position = Vector2(1352, 976)
+radius = 200.0
+color = Color(1, 1, 1, 0.4)
+
+[node name="Anchors" type="Node2D" parent="."]
+
+[node name="ShaderRoot" type="Node2D" parent="."]
+position = Vector2(0, 2)
+
+[node name="Parallax2D" type="Parallax2D" parent="ShaderRoot"]
+repeat_size = Vector2(1152, 648)
+repeat_times = 3
+ignore_camera_scroll = true
+
+[node name="WaterEffect" type="ColorRect" parent="ShaderRoot/Parallax2D"]
+texture_repeat = 2
+material = SubResource("ShaderMaterial_xqmiw")
+offset_right = 1152.0
+offset_bottom = 648.0
+mouse_filter = 2
+
+[node name="SharkSpawn" parent="." instance=ExtResource("6_a4djn")]
+scale = Vector2(2, 2)
+autospawn = false
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Control" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="ScoreLabel" type="Label" parent="CanvasLayer/Control"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 23.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 40
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TimeLabel" type="Label" parent="CanvasLayer/Control"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -55.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 40
+text = "0:00"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ScoreTitle" type="Label" parent="CanvasLayer/Control"]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 48.0
+offset_bottom = 76.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 20
+text = "SCORE"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BackButton" type="Button" parent="CanvasLayer/Control"]
+custom_minimum_size = Vector2(96, 48)
+layout_mode = 1
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 120.0
+offset_bottom = 72.0
+text = "BACK"
+
+[node name="RestartButton" type="Button" parent="CanvasLayer/Control"]
+custom_minimum_size = Vector2(96, 48)
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -120.0
+offset_top = 24.0
+offset_right = -24.0
+offset_bottom = 72.0
+grow_horizontal = 0
+text = "RESTART"
+
+[node name="Anchor" parent="." instance=ExtResource("7_bhqvp")]
+
+[node name="FollowCursor" type="Node" parent="Anchor" node_paths=PackedStringArray("node")]
+script = ExtResource("8_c3yon")
+node = NodePath("..")
+
+[node name="SpawnAnchor" type="Node" parent="." node_paths=PackedStringArray("anchors")]
+script = ExtResource("9_kqxib")
+anchors = NodePath("../Anchors")
+
+[node name="TouchShark" type="Node" parent="."]
+script = ExtResource("10_xtg51")
+
+[connection signal="spawned" from="SharkSpawn" to="." method="_on_shark_spawn_spawned"]
+[connection signal="pressed" from="CanvasLayer/Control/BackButton" to="." method="_on_back_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/Control/RestartButton" to="." method="_on_restart_button_pressed"]
+[connection signal="on_touch_shark" from="Anchor" to="TouchShark" method="_on_touch_shark"]
