@@ -1,26 +1,17 @@
 extends Control
 
-signal needs_update
-
-enum State {
-	MAIN_MENU,
-	GAME,
-}
+signal goto_main_menu
+signal goto_game
+signal goto_score(score: String)
 
 @onready var root = $CanvasLayer/Root
 
-var state = State.MAIN_MENU
 
 func _ready() -> void:
-	needs_update.connect(_on_update)
-	_on_update()	
-
-func _on_update():
-	match state:
-		State.MAIN_MENU:
-			display_main_menu()
-		State.GAME:
-			display_game()
+	goto_main_menu.connect(display_main_menu)
+	goto_game.connect(display_game)
+	goto_score.connect(display_score)
+	display_main_menu()
 
 func clear_root():
 	for child in root.get_children():
@@ -37,8 +28,7 @@ func display_main_menu():
 	)
 	
 	await main_menu.start_pressed
-	state = State.GAME
-	needs_update.emit()
+	goto_game.emit()
 
 
 func display_game():
@@ -48,11 +38,23 @@ func display_game():
 	root.add_child(game)
 
 	game.restart_pressed.connect(func():
-		state = State.GAME
-		needs_update.emit()
+		goto_game.emit()
 	)
 
 	game.back_pressed.connect(func():
-		state = State.MAIN_MENU
-		needs_update.emit()
+		goto_main_menu.emit()
 	)
+
+	game.game_completed.connect(func(score_text):
+		goto_score.emit(score_text)
+	)
+
+func display_score(s: String):
+	clear_root()
+
+	var score = preload("res://score.tscn").instantiate()
+	score.score = s
+	root.add_child(score)
+
+	await score.replay_pressed
+	goto_game.emit()

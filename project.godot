@@ -10,7 +10,8 @@ config_version=5
 
 [application]
 
-config/name="procedural-creatures"
+config/name="SharkTime"
+config/version="0.1.5"
 run/main_scene="res://main.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
 boot_splash/bg_color=Color(0.0509804, 0.780392, 0.854902, 1)

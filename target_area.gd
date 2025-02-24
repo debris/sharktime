@@ -46,7 +46,7 @@ func _process(delta: float) -> void:
 
 func _draw() -> void:
 	if sharks_inside == 0:
-		draw_circle(Vector2.ZERO, animated_radius, color, false, 2.0)
+		draw_circle(Vector2.ZERO, animated_radius, color, false, 4.0)
 	else:
 		draw_circle(Vector2.ZERO, radius, color, true)
 

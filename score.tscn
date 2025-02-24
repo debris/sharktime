@@ -1,0 +1,76 @@
+[gd_scene load_steps=9 format=3 uid="uid://bxio3lm2c3cxo"]
+
+[ext_resource type="Script" path="res://score.gd" id="1_w4y6k"]
+[ext_resource type="FontFile" uid="uid://mgn52mc86n0d" path="res://res/Study Case.otf" id="2_bljoi"]
+[ext_resource type="PackedScene" uid="uid://buq4p4mdkxqe4" path="res://water_shader_node.tscn" id="3_wf1qv"]
+[ext_resource type="FontVariation" uid="uid://d1vul3qcu5sb8" path="res://res/game_font.tres" id="4_32ehc"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_cfeb2"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ygocx"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mgv6f"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_trjk6"]
+
+[node name="Score" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_w4y6k")
+
+[node name="Title" type="Label" parent="."]
+custom_minimum_size = Vector2(0, 160)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 83.0
+grow_horizontal = 2
+theme_override_fonts/font = ExtResource("2_bljoi")
+theme_override_font_sizes/font_size = 80
+text = "SHARKTIME"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ScoreLabel" type="Label" parent="."]
+custom_minimum_size = Vector2(0, 160)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 120.0
+offset_bottom = 280.0
+grow_horizontal = 2
+theme_override_fonts/font = ExtResource("2_bljoi")
+theme_override_font_sizes/font_size = 120
+text = "50"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ShaderRoot" parent="." instance=ExtResource("3_wf1qv")]
+scale = Vector2(0.5, 0.5)
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+layout_mode = 2
+
+[node name="ReplayButton" type="Button" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_32ehc")
+theme_override_font_sizes/font_size = 48
+theme_override_styles/focus = SubResource("StyleBoxEmpty_cfeb2")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_ygocx")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_mgv6f")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_trjk6")
+text = " Replay"
+
+[connection signal="pressed" from="CenterContainer/VBoxContainer/ReplayButton" to="." method="_on_replay_button_pressed"]

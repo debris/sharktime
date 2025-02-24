@@ -3,17 +3,14 @@
 [ext_resource type="Shader" path="res://water.gdshader" id="1_1lsuc"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_bghbu"]
-noise_type = 5
-seed = 3
-frequency = 0.0746
+frequency = 0.04
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_phc54"]
 seamless = true
 noise = SubResource("FastNoiseLite_bghbu")
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_yavjc"]
-seed = 51
-frequency = 0.1339
+frequency = 0.06
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_0ufgw"]
 seamless = true
@@ -22,8 +19,8 @@ noise = SubResource("FastNoiseLite_yavjc")
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_xqmiw"]
 shader = ExtResource("1_1lsuc")
 shader_parameter/distortion = 0.002
-shader_parameter/speed = Vector2(0.05, 0.05)
-shader_parameter/speed2 = Vector2(-0.05, -0.05)
+shader_parameter/speed = Vector2(0.02, 0.02)
+shader_parameter/speed2 = Vector2(-0.02, -0.02)
 shader_parameter/noise_texture = SubResource("NoiseTexture2D_phc54")
 shader_parameter/noise_texture2 = SubResource("NoiseTexture2D_0ufgw")
 
@@ -35,7 +32,20 @@ repeat_size = Vector2(1152, 648)
 repeat_times = 3
 ignore_camera_scroll = true
 
+[node name="ColorRect" type="ColorRect" parent="Parallax2D"]
+z_index = -1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 1152.0
+offset_bottom = 648.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.0509804, 0.780392, 0.854902, 1)
+
 [node name="WaterEffect" type="ColorRect" parent="Parallax2D"]
+visible = false
 texture_repeat = 2
 material = SubResource("ShaderMaterial_xqmiw")
 offset_right = 1152.0

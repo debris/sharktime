@@ -2,6 +2,7 @@ extends Node2D
 
 signal back_pressed
 signal restart_pressed
+signal game_completed(score: String)
 
 @onready var sharks: Node2D = $Sharks
 @onready var targets: Node2D = $Targets
@@ -64,6 +65,11 @@ func _process(delta: float) -> void:
 			add_child(n)
 
 		clear_targets()
+
+		if current_target_index == TargetLoader.get_targets().size():
+			game_completed.emit(time_label.text)
+			return
+
 		add_targets()
 
 func _on_shark_spawn_spawned(new_shark: Shark) -> void:

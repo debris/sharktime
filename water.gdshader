@@ -30,9 +30,9 @@ void fragment() {
 
 	vec4 sample = texture(noise_texture, uv) * texture(noise_texture2, uv2);
 	vec2 noise = 2.0 * sample.rg - vec2(1.0);
-	COLOR = texture(TEXTURE, UV);
-	COLOR *= texture(SCREEN_TEXTURE, SCREEN_UV + noise * distortion);
-	vec4 top_light = smoothstep(0.48, 0.75, sample.r) * vec4(1.0);
-	COLOR += top_light;
+	//COLOR = texture(TEXTURE, UV);
+	COLOR = texture(SCREEN_TEXTURE, SCREEN_UV + noise * distortion);
+	//vec4 top_light = smoothstep(0.48, 0.75, sample.r) * vec4(1.0);
+	//COLOR += top_light;
 	//COLOR.r += step(0.5, noise.r);
 }
