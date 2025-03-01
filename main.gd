@@ -20,7 +20,7 @@ func clear_root():
 func display_main_menu():
 	clear_root()
 
-	var main_menu = preload("res://main_menu.tscn").instantiate()
+	var main_menu = preload("res://screens/main_menu.tscn").instantiate()
 	root.add_child(main_menu)
 
 	main_menu.quit_pressed.connect(func():
@@ -34,7 +34,7 @@ func display_main_menu():
 func display_game():
 	clear_root()
 
-	var game = preload("res://game.tscn").instantiate()
+	var game = preload("res://screens/game.tscn").instantiate()
 	root.add_child(game)
 
 	game.restart_pressed.connect(func():
@@ -52,7 +52,7 @@ func display_game():
 func display_score(s: String):
 	clear_root()
 
-	var score = preload("res://score.tscn").instantiate()
+	var score = preload("res://screens/score.tscn").instantiate()
 	score.score = s
 	root.add_child(score)
 

@@ -1,6 +1,6 @@
 [gd_scene load_steps=18 format=3 uid="uid://ciefysr6pm2p6"]
 
-[ext_resource type="Script" path="res://game.gd" id="1_838ix"]
+[ext_resource type="Script" path="res://screens/game.gd" id="1_838ix"]
 [ext_resource type="Script" path="res://camera_2d.gd" id="2_vpi6b"]
 [ext_resource type="PackedScene" uid="uid://cobpt0fiqb05f" path="res://shark.tscn" id="3_w2i2x"]
 [ext_resource type="PackedScene" uid="uid://f4f5ifsaijeb" path="res://target_area.tscn" id="4_hupkd"]
