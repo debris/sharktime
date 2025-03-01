@@ -34,7 +34,7 @@ func add_targets():
 	var height = 648.0 * 2.0
 
 	for t in new_targets:
-		var target_area = preload("res://target_area.tscn").instantiate()
+		var target_area = preload("res://entities/target_area.tscn").instantiate()
 		target_area.ding_sound = ding_sound
 		target_area.radius = 200.0
 		target_area.position = Vector2(width, height) * t
@@ -59,7 +59,7 @@ func _process(delta: float) -> void:
 	if are_sharks_in_targets():
 		score += targets.get_child_count() * 50
 		for target in targets.get_children():
-			var n = preload("res://notification.tscn").instantiate()
+			var n = preload("res://entities/notification.tscn").instantiate()
 			n.global_position = target.global_position
 			# it's autoreleasing
 			add_child(n)

@@ -1,17 +1,16 @@
-[gd_scene load_steps=18 format=3 uid="uid://ciefysr6pm2p6"]
+[gd_scene load_steps=17 format=3 uid="uid://ciefysr6pm2p6"]
 
 [ext_resource type="Script" path="res://screens/game.gd" id="1_838ix"]
-[ext_resource type="Script" path="res://camera_2d.gd" id="2_vpi6b"]
-[ext_resource type="PackedScene" uid="uid://cobpt0fiqb05f" path="res://shark.tscn" id="3_w2i2x"]
-[ext_resource type="PackedScene" uid="uid://f4f5ifsaijeb" path="res://target_area.tscn" id="4_hupkd"]
-[ext_resource type="PackedScene" uid="uid://buq4p4mdkxqe4" path="res://water_shader_node.tscn" id="5_0ckio"]
-[ext_resource type="PackedScene" uid="uid://0i4hugebyweh" path="res://shark_spawn.tscn" id="6_a4djn"]
-[ext_resource type="PackedScene" uid="uid://djudnxsm1gvta" path="res://anchor.tscn" id="7_bhqvp"]
+[ext_resource type="Script" path="res://entities/camera_2d.gd" id="2_vpi6b"]
+[ext_resource type="PackedScene" uid="uid://cobpt0fiqb05f" path="res://entities/shark.tscn" id="3_w2i2x"]
+[ext_resource type="PackedScene" uid="uid://f4f5ifsaijeb" path="res://entities/target_area.tscn" id="4_hupkd"]
+[ext_resource type="PackedScene" uid="uid://buq4p4mdkxqe4" path="res://entities/water_shader_node.tscn" id="5_0ckio"]
+[ext_resource type="PackedScene" uid="uid://djudnxsm1gvta" path="res://entities/anchor.tscn" id="7_bhqvp"]
 [ext_resource type="FontVariation" uid="uid://d1vul3qcu5sb8" path="res://res/game_font.tres" id="7_vlssj"]
-[ext_resource type="PackedScene" uid="uid://clrcktt5d0pui" path="res://hints.tscn" id="8_6ly2g"]
-[ext_resource type="Script" path="res://follow_cursor.gd" id="8_c3yon"]
-[ext_resource type="Script" path="res://spawn_anchor.gd" id="9_kqxib"]
-[ext_resource type="Script" path="res://touch_shark.gd" id="10_xtg51"]
+[ext_resource type="PackedScene" uid="uid://clrcktt5d0pui" path="res://entities/hints.tscn" id="8_6ly2g"]
+[ext_resource type="Script" path="res://scripts/follow_cursor.gd" id="8_c3yon"]
+[ext_resource type="Script" path="res://scripts/spawn_anchor.gd" id="9_kqxib"]
+[ext_resource type="Script" path="res://scripts/touch_shark.gd" id="10_xtg51"]
 [ext_resource type="AudioStream" uid="uid://fkg8wdiiqc70" path="res://res/correct_ding.mp3" id="13_8gp5p"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_dbv7m"]
@@ -59,10 +58,6 @@ radius = 200.0
 [node name="Anchors" type="Node2D" parent="."]
 
 [node name="ShaderRoot" parent="." instance=ExtResource("5_0ckio")]
-
-[node name="SharkSpawn" parent="." instance=ExtResource("6_a4djn")]
-scale = Vector2(2, 2)
-autospawn = false
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -180,7 +175,6 @@ script = ExtResource("10_xtg51")
 [node name="DingSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("13_8gp5p")
 
-[connection signal="spawned" from="SharkSpawn" to="." method="_on_shark_spawn_spawned"]
 [connection signal="pressed" from="CanvasLayer/Control/BackButton" to="." method="_on_back_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/Control/RestartButton" to="." method="_on_restart_button_pressed"]
 [connection signal="on_left_click" from="Anchor" to="SpawnAnchor" method="_spawn_anchor"]

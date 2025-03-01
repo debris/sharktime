@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://buq4p4mdkxqe4"]
 
-[ext_resource type="Shader" path="res://water.gdshader" id="1_1lsuc"]
+[ext_resource type="Shader" path="res://shaders/water.gdshader" id="1_p26q1"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_bghbu"]
 frequency = 0.04
@@ -17,7 +17,7 @@ seamless = true
 noise = SubResource("FastNoiseLite_yavjc")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_xqmiw"]
-shader = ExtResource("1_1lsuc")
+shader = ExtResource("1_p26q1")
 shader_parameter/distortion = 0.002
 shader_parameter/speed = Vector2(0.02, 0.02)
 shader_parameter/speed2 = Vector2(-0.02, -0.02)

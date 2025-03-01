@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://c350ut0ihpvsj"]
 
 [ext_resource type="FontVariation" uid="uid://d1vul3qcu5sb8" path="res://res/game_font.tres" id="1_eatqp"]
-[ext_resource type="Script" path="res://notification.gd" id="1_t0qvf"]
+[ext_resource type="Script" path="res://entities/notification.gd" id="1_t0qvf"]
 
 [node name="Notification" type="Node2D"]
 script = ExtResource("1_t0qvf")

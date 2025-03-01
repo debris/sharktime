@@ -1,11 +1,11 @@
 [gd_scene load_steps=12 format=3 uid="uid://cobpt0fiqb05f"]
 
-[ext_resource type="Script" path="res://shark.gd" id="1_qitrd"]
-[ext_resource type="Script" path="res://creature.gd" id="1_y6mss"]
-[ext_resource type="Script" path="res://segment.gd" id="2_d5x32"]
-[ext_resource type="Script" path="res://catmull_rom_shape.gd" id="4_h7dar"]
-[ext_resource type="Script" path="res://eye.gd" id="5_0hu1p"]
-[ext_resource type="Script" path="res://creature_head.gd" id="6_ijg78"]
+[ext_resource type="Script" path="res://entities/shark.gd" id="1_qitrd"]
+[ext_resource type="Script" path="res://entities/creature.gd" id="1_y6mss"]
+[ext_resource type="Script" path="res://entities/segment.gd" id="2_d5x32"]
+[ext_resource type="Script" path="res://entities/catmull_rom_shape.gd" id="4_h7dar"]
+[ext_resource type="Script" path="res://entities/eye.gd" id="5_0hu1p"]
+[ext_resource type="Script" path="res://entities/creature_head.gd" id="6_ijg78"]
 
 [sub_resource type="Animation" id="Animation_hlpmp"]
 length = 0.001
