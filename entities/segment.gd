@@ -6,13 +6,15 @@ class_name Segment
 	set(value):
 		distance_constraint = value
 		queue_redraw()
-		get_parent().queue_redraw()
+		if is_node_ready():
+			get_parent().queue_redraw()
 
 @export var body_size: float:
 	set(value):
 		body_size = value
 		queue_redraw()
-		get_parent().queue_redraw()
+		if is_node_ready():
+			get_parent().queue_redraw()
 
 @export var should_draw: bool:
 	set(value):
