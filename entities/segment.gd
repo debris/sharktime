@@ -2,11 +2,18 @@
 extends Node2D
 class_name Segment
 
-@export var distance_constraint: float
+@export var distance_constraint: float:
+	set(value):
+		distance_constraint = value
+		queue_redraw()
+		get_parent().queue_redraw()
+
 @export var body_size: float:
 	set(value):
 		body_size = value
 		queue_redraw()
+		get_parent().queue_redraw()
+
 @export var should_draw: bool:
 	set(value):
 		should_draw = value
@@ -23,6 +30,6 @@ func _draw() -> void:
 	if !should_draw:
 		return
 
-	draw_circle(Vector2.ZERO, body_size, Color.WHITE, true, 2.0)
-	draw_circle(Vector2.ZERO, body_size, Color.BLACK, false, 2.0)
-	draw_line(Vector2.ZERO, Vector2(body_size, 0.0), Color.BLACK, 2.0)
+	var parent = get_parent()
+	if "drawer" in parent:
+		parent.drawer._draw_segment(self)

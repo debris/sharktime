@@ -1,0 +1,85 @@
+[gd_scene load_steps=6 format=3 uid="uid://cvq7qukito2co"]
+
+[ext_resource type="Script" path="res://entities/segment.gd" id="2_0crsn"]
+[ext_resource type="Script" path="res://entities/body.gd" id="2_xyfvq"]
+[ext_resource type="Script" path="res://entities/body_draw/body_drawer_smooth.gd" id="3_2u71c"]
+[ext_resource type="Script" path="res://entities/body_draw/body_drawer_circles.gd" id="5_so35b"]
+[ext_resource type="Script" path="res://entities/body/body_movement_init.gd" id="5_u0655"]
+
+[node name="Test" type="Node2D"]
+
+[node name="Body" type="Node2D" parent="." node_paths=PackedStringArray("movement", "drawer")]
+script = ExtResource("2_xyfvq")
+movement = NodePath("../BodyMovementInit")
+drawer = NodePath("../BodyDrawerSmooth")
+
+[node name="Segment" type="Node2D" parent="Body"]
+script = ExtResource("2_0crsn")
+distance_constraint = 30.0
+body_size = 23.0
+should_draw = true
+
+[node name="Segment2" type="Node2D" parent="Body"]
+position = Vector2(-24, 0)
+script = ExtResource("2_0crsn")
+distance_constraint = 24.0
+body_size = 5.0
+should_draw = true
+
+[node name="Segment3" type="Node2D" parent="Body"]
+position = Vector2(-49, 0)
+script = ExtResource("2_0crsn")
+distance_constraint = 25.0
+body_size = 50.0
+should_draw = true
+
+[node name="Segment4" type="Node2D" parent="Body"]
+position = Vector2(-73, 0)
+script = ExtResource("2_0crsn")
+distance_constraint = 24.0
+body_size = 20.0
+should_draw = true
+
+[node name="Segment5" type="Node2D" parent="Body"]
+position = Vector2(-103, 0)
+script = ExtResource("2_0crsn")
+distance_constraint = 30.0
+body_size = 10.0
+should_draw = true
+
+[node name="Segment6" type="Node2D" parent="Body"]
+position = Vector2(-127, 0)
+script = ExtResource("2_0crsn")
+distance_constraint = 24.0
+body_size = 40.0
+should_draw = true
+
+[node name="Segment7" type="Node2D" parent="Body"]
+position = Vector2(-151, 0)
+script = ExtResource("2_0crsn")
+distance_constraint = 24.0
+body_size = 12.0
+should_draw = true
+
+[node name="Segment8" type="Node2D" parent="Body"]
+position = Vector2(-175, 0)
+script = ExtResource("2_0crsn")
+distance_constraint = 24.0
+body_size = 10.0
+should_draw = true
+
+[node name="Segment9" type="Node2D" parent="Body"]
+position = Vector2(-199, 0)
+script = ExtResource("2_0crsn")
+distance_constraint = 24.0
+body_size = 25.0
+should_draw = true
+
+[node name="BodyMovementInit" type="Node" parent="."]
+script = ExtResource("5_u0655")
+
+[node name="BodyDrawerCircles" type="Node" parent="."]
+script = ExtResource("5_so35b")
+
+[node name="BodyDrawerSmooth" type="Node" parent="."]
+script = ExtResource("3_2u71c")
