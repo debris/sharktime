@@ -25,12 +25,11 @@ drawer = NodePath("BodyDrawerSmooth")
 character_body = NodePath("BodyHead")
 
 [node name="Segment" type="Node2D" parent="."]
-position = Vector2(172.995, -186.396)
-rotation = 51.0078
+position = Vector2(-189.592, 169.131)
+rotation = 98.229
 script = ExtResource("2_56x7f")
 distance_constraint = 20.0
 body_size = 25.0
-should_draw = true
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="Segment"]
 remote_path = NodePath("../../EyeSocket")
@@ -39,21 +38,19 @@ remote_path = NodePath("../../EyeSocket")
 remote_path = NodePath("../../AnchorScanner")
 
 [node name="Segment2" type="Node2D" parent="."]
-position = Vector2(157.237, -198.712)
-rotation = 0.6634
+position = Vector2(-175.106, 182.92)
+rotation = -2.38082
 script = ExtResource("2_56x7f")
 distance_constraint = 20.0
 body_size = 27.0
-should_draw = true
 
 [node name="Segment3" type="Node2D" parent="."]
 show_behind_parent = true
-position = Vector2(140.554, -209.743)
-rotation = 0.584204
+position = Vector2(-159.576, 195.523)
+rotation = -2.45988
 script = ExtResource("2_56x7f")
 distance_constraint = 20.0
 body_size = 24.0
-should_draw = true
 
 [node name="LeftFrontFin" type="Node2D" parent="Segment3"]
 position = Vector2(0, -20)
@@ -71,37 +68,33 @@ border_color = Color(1, 1, 1, 1)
 fill_color = Color(0.0509804, 0.658824, 0.854902, 1)
 
 [node name="Segment4" type="Node2D" parent="."]
-position = Vector2(123.048, -219.415)
-rotation = 0.50474
+position = Vector2(-143.096, 206.855)
+rotation = -2.5392
 script = ExtResource("2_56x7f")
 distance_constraint = 20.0
 body_size = 20.0
-should_draw = true
 
 [node name="Segment5" type="Node2D" parent="."]
-position = Vector2(104.827, -227.661)
-rotation = 0.425002
+position = Vector2(-125.768, 216.841)
+rotation = -2.61878
 script = ExtResource("2_56x7f")
 distance_constraint = 20.0
 body_size = 15.0
-should_draw = true
 
 [node name="Segment6" type="Node2D" parent="."]
-position = Vector2(86.0055, -234.425)
-rotation = 0.344991
+position = Vector2(-107.698, 225.414)
+rotation = -2.69864
 script = ExtResource("2_56x7f")
 distance_constraint = 20.0
 body_size = 10.0
-should_draw = true
 
 [node name="Segment7" type="Node2D" parent="."]
 show_behind_parent = true
-position = Vector2(66.7021, -239.657)
-rotation = 0.264704
+position = Vector2(-89, 232.512)
+rotation = -2.77876
 script = ExtResource("2_56x7f")
 distance_constraint = 20.0
 body_size = 5.0
-should_draw = true
 
 [node name="LeftFrontFin" type="Node2D" parent="Segment7"]
 scale = Vector2(1, -1)
@@ -117,12 +110,11 @@ border_color = Color(1, 1, 1, 1)
 fill_color = Color(0.0509804, 0.658824, 0.854902, 1)
 
 [node name="Segment8" type="Node2D" parent="."]
-position = Vector2(47.0402, -243.319)
-rotation = 0.184134
+position = Vector2(-69.7925, 238.086)
+rotation = -2.85914
 script = ExtResource("2_56x7f")
 distance_constraint = 20.0
 body_size = 4.0
-should_draw = true
 
 [node name="BodyMovementInit" type="Node" parent="."]
 script = ExtResource("3_mp0xn")
@@ -141,7 +133,7 @@ script = ExtResource("6_b4bnv")
 script = ExtResource("7_sk1wa")
 
 [node name="BodyHead" type="CharacterBody2D" parent="." node_paths=PackedStringArray("body")]
-position = Vector2(172.995, -186.396)
+position = Vector2(-189.592, 169.131)
 rotation = 0.337839
 scale = Vector2(1, 1)
 motion_mode = 1
@@ -153,8 +145,8 @@ body = NodePath("..")
 shape = SubResource("CircleShape2D_67i65")
 
 [node name="AnchorScanner" type="Area2D" parent="." node_paths=PackedStringArray("body")]
-position = Vector2(172.995, -186.396)
-rotation = 0.742322
+position = Vector2(-189.592, 169.131)
+rotation = -2.30201
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("9_mif3k")
@@ -164,8 +156,8 @@ body = NodePath("..")
 shape = SubResource("CircleShape2D_h1vif")
 
 [node name="EyeSocket" type="Node2D" parent="."]
-position = Vector2(172.995, -186.396)
-rotation = 0.742322
+position = Vector2(-189.592, 169.131)
+rotation = -2.30201
 
 [node name="LeftEye" type="Node2D" parent="EyeSocket"]
 position = Vector2(0, -20)

@@ -1,0 +1,273 @@
+[gd_scene load_steps=9 format=3 uid="uid://dntjq0bbn7e58"]
+
+[ext_resource type="Script" path="res://entities/body/body.gd" id="1_8y4nj"]
+[ext_resource type="Script" path="res://entities/body/movement/body_movement_init.gd" id="2_1kcle"]
+[ext_resource type="Script" path="res://entities/body/draw/body_drawer_smooth.gd" id="3_88cpc"]
+[ext_resource type="Script" path="res://entities/segment.gd" id="4_kksya"]
+[ext_resource type="Script" path="res://entities/body/draw/body_drawer_circles.gd" id="5_08c7v"]
+
+[sub_resource type="Animation" id="Animation_mqe6r"]
+resource_name = "example"
+length = 8.0
+loop_mode = 1
+step = 1.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Segment:body_size")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1, 3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [20.0, 30.0, 20.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Segment2:body_size")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1, 2, 4),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [20.0, 20.0, 30.0, 20.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Segment3:body_size")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 2, 3, 5),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [20.0, 20.0, 30.0, 20.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Segment4:body_size")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 3, 4, 6),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [20.0, 20.0, 30.0, 20.0]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Segment5:body_size")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 4, 5, 7),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [20.0, 20.0, 30.0, 20.0]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Segment6:body_size")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 5, 6, 8),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [20.0, 20.0, 30.0, 20.0]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("BodyDrawerSmooth:fill_color")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0, 4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0.21, 0.259, 0.7, 1), Color(0.7, 0.691833, 0.21, 1)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("Segment3:distance_constraint")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0, 4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [20.0, 40.0]
+}
+
+[sub_resource type="Animation" id="Animation_1lesx"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Segment:body_size")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [30.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Segment2:body_size")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [20.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Segment3:body_size")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [20.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Segment4:body_size")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [20.0]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Segment5:body_size")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [20.0]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Segment6:body_size")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [20.0]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("BodyDrawerSmooth:fill_color")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.21, 0.259, 0.7, 1)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("Segment3:distance_constraint")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [20.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_tgb1c"]
+_data = {
+"RESET": SubResource("Animation_1lesx"),
+"example": SubResource("Animation_mqe6r")
+}
+
+[node name="Example" type="Node2D" node_paths=PackedStringArray("movement", "drawer")]
+position = Vector2(608, 320)
+script = ExtResource("1_8y4nj")
+movement = NodePath("BodyMovementInit")
+drawer = NodePath("BodyDrawerSmooth")
+metadata/_edit_group_ = true
+
+[node name="BodyMovementInit" type="Node" parent="."]
+script = ExtResource("2_1kcle")
+
+[node name="BodyDrawerSmooth" type="Node" parent="."]
+script = ExtResource("3_88cpc")
+fill_color = Color(0.21, 0.259, 0.7, 1)
+
+[node name="Segment" type="Node2D" parent="."]
+script = ExtResource("4_kksya")
+distance_constraint = 20.0
+body_size = 30.0
+
+[node name="Segment2" type="Node2D" parent="."]
+position = Vector2(-20, 0)
+script = ExtResource("4_kksya")
+distance_constraint = 20.0
+body_size = 20.0
+
+[node name="Segment3" type="Node2D" parent="."]
+position = Vector2(-57.9549, 0)
+script = ExtResource("4_kksya")
+distance_constraint = 20.0
+body_size = 20.0
+
+[node name="Segment4" type="Node2D" parent="."]
+position = Vector2(-77.9549, 0)
+script = ExtResource("4_kksya")
+distance_constraint = 20.0
+body_size = 20.0
+
+[node name="Segment5" type="Node2D" parent="."]
+position = Vector2(-97.9549, 0)
+script = ExtResource("4_kksya")
+distance_constraint = 20.0
+body_size = 20.0
+
+[node name="Segment6" type="Node2D" parent="."]
+position = Vector2(-117.955, 0)
+script = ExtResource("4_kksya")
+distance_constraint = 20.0
+body_size = 20.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_tgb1c")
+}
+autoplay = "example"
+speed_scale = 4.0
+
+[node name="BodyDrawerCircles" type="Node" parent="."]
+script = ExtResource("5_08c7v")
