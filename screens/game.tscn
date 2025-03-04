@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://screens/game.gd" id="1_838ix"]
 [ext_resource type="Script" path="res://entities/camera_2d.gd" id="2_vpi6b"]
-[ext_resource type="PackedScene" uid="uid://cobpt0fiqb05f" path="res://entities/shark.tscn" id="3_w2i2x"]
+[ext_resource type="PackedScene" uid="uid://bgq5t0pnt2msp" path="res://entities/body/creatures/shark.tscn" id="3_hgd5s"]
 [ext_resource type="PackedScene" uid="uid://f4f5ifsaijeb" path="res://entities/target_area.tscn" id="4_hupkd"]
 [ext_resource type="PackedScene" uid="uid://buq4p4mdkxqe4" path="res://entities/water_shader_node.tscn" id="5_0ckio"]
 [ext_resource type="PackedScene" uid="uid://djudnxsm1gvta" path="res://entities/anchor.tscn" id="7_bhqvp"]
@@ -10,8 +10,8 @@
 [ext_resource type="PackedScene" uid="uid://clrcktt5d0pui" path="res://entities/hints.tscn" id="8_6ly2g"]
 [ext_resource type="Script" path="res://scripts/follow_cursor.gd" id="8_c3yon"]
 [ext_resource type="Script" path="res://scripts/spawn_anchor.gd" id="9_kqxib"]
-[ext_resource type="Script" path="res://scripts/touch_shark.gd" id="10_xtg51"]
 [ext_resource type="AudioStream" uid="uid://fkg8wdiiqc70" path="res://res/correct_ding.mp3" id="13_8gp5p"]
+[ext_resource type="Script" path="res://entities/body/body_accelerate.gd" id="13_71btc"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_dbv7m"]
 
@@ -32,13 +32,13 @@ script = ExtResource("2_vpi6b")
 
 [node name="Sharks" type="Node2D" parent="."]
 
-[node name="Shark" parent="Sharks" instance=ExtResource("3_w2i2x")]
+[node name="Shark" parent="Sharks" instance=ExtResource("3_hgd5s")]
 position = Vector2(400, 400)
 
-[node name="Shark2" parent="Sharks" instance=ExtResource("3_w2i2x")]
-position = Vector2(300, 600)
+[node name="Shark2" parent="Sharks" instance=ExtResource("3_hgd5s")]
+position = Vector2(400, 600)
 
-[node name="Shark3" parent="Sharks" instance=ExtResource("3_w2i2x")]
+[node name="Shark3" parent="Sharks" instance=ExtResource("3_hgd5s")]
 position = Vector2(400, 800)
 
 [node name="Targets" type="Node2D" parent="."]
@@ -169,13 +169,13 @@ node = NodePath("..")
 script = ExtResource("9_kqxib")
 anchors = NodePath("../Anchors")
 
-[node name="TouchShark" type="Node" parent="."]
-script = ExtResource("10_xtg51")
-
 [node name="DingSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("13_8gp5p")
 
+[node name="BodyAccelerate" type="Node" parent="."]
+script = ExtResource("13_71btc")
+
 [connection signal="pressed" from="CanvasLayer/Control/BackButton" to="." method="_on_back_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/Control/RestartButton" to="." method="_on_restart_button_pressed"]
+[connection signal="on_body_touch" from="Anchor" to="BodyAccelerate" method="accelerate"]
 [connection signal="on_left_click" from="Anchor" to="SpawnAnchor" method="_spawn_anchor"]
-[connection signal="on_touch_shark" from="Anchor" to="TouchShark" method="_on_touch_shark"]

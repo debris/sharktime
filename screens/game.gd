@@ -72,9 +72,6 @@ func _process(delta: float) -> void:
 
 		add_targets()
 
-func _on_shark_spawn_spawned(new_shark: Shark) -> void:
-	sharks.add_child(new_shark)
-
 func _on_back_button_pressed() -> void:
 	back_pressed.emit()
 

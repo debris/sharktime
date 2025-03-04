@@ -1,93 +1,24 @@
-[gd_scene load_steps=8 format=3 uid="uid://cvq7qukito2co"]
+[gd_scene load_steps=5 format=3 uid="uid://cvq7qukito2co"]
 
-[ext_resource type="Script" path="res://entities/segment.gd" id="2_0crsn"]
-[ext_resource type="Script" path="res://entities/body.gd" id="2_xyfvq"]
-[ext_resource type="Script" path="res://entities/body_draw/body_drawer_smooth.gd" id="3_2u71c"]
-[ext_resource type="Script" path="res://entities/body_draw/body_drawer_circles.gd" id="5_so35b"]
-[ext_resource type="Script" path="res://entities/body/body_movement_init.gd" id="5_u0655"]
-[ext_resource type="Script" path="res://entities/body/body_movement_swim.gd" id="6_q3e1i"]
-[ext_resource type="Script" path="res://scripts/yield_cursor_position.gd" id="7_fhrel"]
+[ext_resource type="PackedScene" uid="uid://bgq5t0pnt2msp" path="res://entities/body/creatures/shark.tscn" id="1_0ho8b"]
+[ext_resource type="Script" path="res://scripts/spawn_anchor.gd" id="9_0jiex"]
+[ext_resource type="PackedScene" uid="uid://djudnxsm1gvta" path="res://entities/anchor.tscn" id="10_8a1sc"]
+[ext_resource type="Script" path="res://scripts/follow_cursor.gd" id="11_fwqyw"]
 
 [node name="Test" type="Node2D"]
 
-[node name="Body" type="Node2D" parent="." node_paths=PackedStringArray("movement", "drawer")]
-script = ExtResource("2_xyfvq")
-movement = NodePath("../BodyMovementInit")
-drawer = NodePath("../BodyDrawerSmooth")
+[node name="Body" parent="." instance=ExtResource("1_0ho8b")]
 
-[node name="Segment" type="Node2D" parent="Body"]
-script = ExtResource("2_0crsn")
-distance_constraint = 30.0
-body_size = 23.0
-should_draw = true
+[node name="Anchors" type="Node2D" parent="."]
 
-[node name="Segment2" type="Node2D" parent="Body"]
-position = Vector2(-24, 0)
-script = ExtResource("2_0crsn")
-distance_constraint = 24.0
-body_size = 5.0
-should_draw = true
+[node name="SpawnAnchor" type="Node" parent="." node_paths=PackedStringArray("anchors")]
+script = ExtResource("9_0jiex")
+anchors = NodePath("../Anchors")
 
-[node name="Segment3" type="Node2D" parent="Body"]
-position = Vector2(-49, 0)
-script = ExtResource("2_0crsn")
-distance_constraint = 25.0
-body_size = 50.0
-should_draw = true
+[node name="Anchor" parent="." instance=ExtResource("10_8a1sc")]
 
-[node name="Segment4" type="Node2D" parent="Body"]
-position = Vector2(-73, 0)
-script = ExtResource("2_0crsn")
-distance_constraint = 24.0
-body_size = 20.0
-should_draw = true
+[node name="FollowCursor" type="Node" parent="Anchor" node_paths=PackedStringArray("node")]
+script = ExtResource("11_fwqyw")
+node = NodePath("..")
 
-[node name="Segment5" type="Node2D" parent="Body"]
-position = Vector2(-103, 0)
-script = ExtResource("2_0crsn")
-distance_constraint = 30.0
-body_size = 10.0
-should_draw = true
-
-[node name="Segment6" type="Node2D" parent="Body"]
-position = Vector2(-127, 0)
-script = ExtResource("2_0crsn")
-distance_constraint = 24.0
-body_size = 40.0
-should_draw = true
-
-[node name="Segment7" type="Node2D" parent="Body"]
-position = Vector2(-151, 0)
-script = ExtResource("2_0crsn")
-distance_constraint = 24.0
-body_size = 12.0
-should_draw = true
-
-[node name="Segment8" type="Node2D" parent="Body"]
-position = Vector2(-175, 0)
-script = ExtResource("2_0crsn")
-distance_constraint = 24.0
-body_size = 10.0
-should_draw = true
-
-[node name="Segment9" type="Node2D" parent="Body"]
-position = Vector2(-199, 0)
-script = ExtResource("2_0crsn")
-distance_constraint = 24.0
-body_size = 25.0
-should_draw = true
-
-[node name="BodyMovementInit" type="Node" parent="."]
-script = ExtResource("5_u0655")
-
-[node name="BodyDrawerCircles" type="Node" parent="."]
-script = ExtResource("5_so35b")
-
-[node name="BodyDrawerSmooth" type="Node" parent="."]
-script = ExtResource("3_2u71c")
-
-[node name="BodyMovementSwim" type="Node" parent="."]
-script = ExtResource("6_q3e1i")
-
-[node name="YieldCursorPosition" type="Node2D" parent="."]
-script = ExtResource("7_fhrel")
+[connection signal="on_left_click" from="Anchor" to="SpawnAnchor" method="_spawn_anchor"]

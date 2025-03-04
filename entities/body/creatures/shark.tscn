@@ -1,0 +1,178 @@
+[gd_scene load_steps=14 format=3 uid="uid://bgq5t0pnt2msp"]
+
+[ext_resource type="Script" path="res://entities/body/body.gd" id="1_4t1k1"]
+[ext_resource type="Script" path="res://entities/segment.gd" id="2_56x7f"]
+[ext_resource type="Script" path="res://entities/body/movement/body_movement_init.gd" id="3_mp0xn"]
+[ext_resource type="Script" path="res://entities/catmull_rom_shape.gd" id="3_vuc22"]
+[ext_resource type="Script" path="res://entities/body/draw/body_drawer_circles.gd" id="4_xxmxg"]
+[ext_resource type="Script" path="res://entities/body/draw/body_drawer_smooth.gd" id="5_rvmy7"]
+[ext_resource type="Script" path="res://entities/body/movement/body_movement_swim.gd" id="6_b4bnv"]
+[ext_resource type="Script" path="res://scripts/yield_cursor_position.gd" id="7_sk1wa"]
+[ext_resource type="Script" path="res://entities/body/body_head.gd" id="8_gsjuq"]
+[ext_resource type="Script" path="res://scripts/anchor_scanner.gd" id="9_mif3k"]
+[ext_resource type="Script" path="res://entities/eye.gd" id="11_fok7o"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_67i65"]
+radius = 25.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_h1vif"]
+radius = 1000.0
+
+[node name="Shark" type="Node2D" node_paths=PackedStringArray("movement", "drawer", "character_body")]
+script = ExtResource("1_4t1k1")
+movement = NodePath("BodyMovementSwim")
+drawer = NodePath("BodyDrawerSmooth")
+character_body = NodePath("BodyHead")
+
+[node name="Segment" type="Node2D" parent="."]
+position = Vector2(172.995, -186.396)
+rotation = 51.0078
+script = ExtResource("2_56x7f")
+distance_constraint = 20.0
+body_size = 25.0
+should_draw = true
+
+[node name="RemoteTransform2D" type="RemoteTransform2D" parent="Segment"]
+remote_path = NodePath("../../EyeSocket")
+
+[node name="RemoteTransform2D2" type="RemoteTransform2D" parent="Segment"]
+remote_path = NodePath("../../AnchorScanner")
+
+[node name="Segment2" type="Node2D" parent="."]
+position = Vector2(157.237, -198.712)
+rotation = 0.6634
+script = ExtResource("2_56x7f")
+distance_constraint = 20.0
+body_size = 27.0
+should_draw = true
+
+[node name="Segment3" type="Node2D" parent="."]
+show_behind_parent = true
+position = Vector2(140.554, -209.743)
+rotation = 0.584204
+script = ExtResource("2_56x7f")
+distance_constraint = 20.0
+body_size = 24.0
+should_draw = true
+
+[node name="LeftFrontFin" type="Node2D" parent="Segment3"]
+position = Vector2(0, -20)
+scale = Vector2(1, -1)
+script = ExtResource("3_vuc22")
+points = PackedVector2Array(0, 5, 30, 0, 0, 30)
+border_color = Color(1, 1, 1, 1)
+fill_color = Color(0.0509804, 0.658824, 0.854902, 1)
+
+[node name="RightFrontFin" type="Node2D" parent="Segment3"]
+position = Vector2(0, 20)
+script = ExtResource("3_vuc22")
+points = PackedVector2Array(0, 5, 30, 0, 0, 30)
+border_color = Color(1, 1, 1, 1)
+fill_color = Color(0.0509804, 0.658824, 0.854902, 1)
+
+[node name="Segment4" type="Node2D" parent="."]
+position = Vector2(123.048, -219.415)
+rotation = 0.50474
+script = ExtResource("2_56x7f")
+distance_constraint = 20.0
+body_size = 20.0
+should_draw = true
+
+[node name="Segment5" type="Node2D" parent="."]
+position = Vector2(104.827, -227.661)
+rotation = 0.425002
+script = ExtResource("2_56x7f")
+distance_constraint = 20.0
+body_size = 15.0
+should_draw = true
+
+[node name="Segment6" type="Node2D" parent="."]
+position = Vector2(86.0055, -234.425)
+rotation = 0.344991
+script = ExtResource("2_56x7f")
+distance_constraint = 20.0
+body_size = 10.0
+should_draw = true
+
+[node name="Segment7" type="Node2D" parent="."]
+show_behind_parent = true
+position = Vector2(66.7021, -239.657)
+rotation = 0.264704
+script = ExtResource("2_56x7f")
+distance_constraint = 20.0
+body_size = 5.0
+should_draw = true
+
+[node name="LeftFrontFin" type="Node2D" parent="Segment7"]
+scale = Vector2(1, -1)
+script = ExtResource("3_vuc22")
+points = PackedVector2Array(0, 5, 30, 0, 0, 30)
+border_color = Color(1, 1, 1, 1)
+fill_color = Color(0.0509804, 0.658824, 0.854902, 1)
+
+[node name="RightFrontFin" type="Node2D" parent="Segment7"]
+script = ExtResource("3_vuc22")
+points = PackedVector2Array(0, 5, 30, 0, 0, 30)
+border_color = Color(1, 1, 1, 1)
+fill_color = Color(0.0509804, 0.658824, 0.854902, 1)
+
+[node name="Segment8" type="Node2D" parent="."]
+position = Vector2(47.0402, -243.319)
+rotation = 0.184134
+script = ExtResource("2_56x7f")
+distance_constraint = 20.0
+body_size = 4.0
+should_draw = true
+
+[node name="BodyMovementInit" type="Node" parent="."]
+script = ExtResource("3_mp0xn")
+
+[node name="BodyDrawerCircles" type="Node" parent="."]
+script = ExtResource("4_xxmxg")
+
+[node name="BodyDrawerSmooth" type="Node" parent="."]
+script = ExtResource("5_rvmy7")
+fill_color = Color(0.0509804, 0.564706, 0.854902, 1)
+
+[node name="BodyMovementSwim" type="Node" parent="."]
+script = ExtResource("6_b4bnv")
+
+[node name="YieldCursorPosition" type="Node2D" parent="."]
+script = ExtResource("7_sk1wa")
+
+[node name="BodyHead" type="CharacterBody2D" parent="." node_paths=PackedStringArray("body")]
+position = Vector2(172.995, -186.396)
+rotation = 0.337839
+scale = Vector2(1, 1)
+motion_mode = 1
+wall_min_slide_angle = 0.0
+script = ExtResource("8_gsjuq")
+body = NodePath("..")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BodyHead"]
+shape = SubResource("CircleShape2D_67i65")
+
+[node name="AnchorScanner" type="Area2D" parent="." node_paths=PackedStringArray("body")]
+position = Vector2(172.995, -186.396)
+rotation = 0.742322
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("9_mif3k")
+body = NodePath("..")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AnchorScanner"]
+shape = SubResource("CircleShape2D_h1vif")
+
+[node name="EyeSocket" type="Node2D" parent="."]
+position = Vector2(172.995, -186.396)
+rotation = 0.742322
+
+[node name="LeftEye" type="Node2D" parent="EyeSocket"]
+position = Vector2(0, -20)
+script = ExtResource("11_fok7o")
+
+[node name="RightEye" type="Node2D" parent="EyeSocket"]
+position = Vector2(0, 20)
+script = ExtResource("11_fok7o")
+
+[connection signal="closest_anchor_updated" from="AnchorScanner" to="BodyMovementSwim" method="set_target_position"]

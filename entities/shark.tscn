@@ -1,11 +1,147 @@
-[gd_scene load_steps=12 format=3 uid="uid://cobpt0fiqb05f"]
+[gd_scene load_steps=12 format=3 uid="uid://dfpqedic5m1b6"]
 
-[ext_resource type="Script" path="res://entities/shark.gd" id="1_qitrd"]
-[ext_resource type="Script" path="res://entities/creature.gd" id="1_y6mss"]
 [ext_resource type="Script" path="res://entities/segment.gd" id="2_d5x32"]
 [ext_resource type="Script" path="res://entities/catmull_rom_shape.gd" id="4_h7dar"]
 [ext_resource type="Script" path="res://entities/eye.gd" id="5_0hu1p"]
-[ext_resource type="Script" path="res://entities/creature_head.gd" id="6_ijg78"]
+
+[sub_resource type="GDScript" id="GDScript_nyb40"]
+script/source = "@tool
+extends Node2D
+class_name Shark
+
+@export var target_position: Vector2
+
+@onready var creature: Creature = $Creature
+@onready var catmull_rom_shape: CatmullRomShape = $CatmullRomShape
+@onready var top_fin: CatmullRomShape = $TopFin
+
+var anchors = {}
+
+func _get_closest_anchor() -> Vector2:
+	# if there are no anchors, return old target_position
+	if anchors.size() == 0:
+		return target_position
+
+	var closest = null
+	var head = creature.get_segments()[0]
+	for anchor in anchors.keys():
+		if closest == null || head.global_position.distance_to(anchor.global_position) < head.global_position.distance_to(closest):
+			closest = anchor.global_position
+
+	return closest
+
+func _process(_delta: float) -> void:
+	target_position = _get_closest_anchor()
+	creature.target_position = target_position - position
+
+	var segments = creature.get_segments()
+	var left_points = []
+	var right_points = []
+
+	# draw head
+	var head = segments[0]
+	var angle45 = deg_to_rad(45.0)
+	var middle = head.position + Vector2(head.body_size, 0.0).rotated(head.rotation)
+	var middle_left = head.position + Vector2(head.body_size, 0.0).rotated(head.rotation - angle45)
+	var middle_right = head.position + Vector2(head.body_size, 0.0).rotated(head.rotation + angle45)
+	left_points.push_back(middle)
+	left_points.push_back(middle_left)
+	right_points.push_back(middle_right)
+
+	# continue the stroke on both sides
+	for i in segments.size():
+		var current = segments[i]
+		var angle = deg_to_rad(90.0)
+
+		var left_front = current.position + Vector2(current.body_size, 0.0).rotated(current.rotation - angle)
+		var right_front = current.position + Vector2(current.body_size, 0.0).rotated(current.rotation + angle)
+
+		left_points.push_back(left_front)
+		right_points.push_back(right_front)
+
+	right_points.reverse()
+	right_points.append_array(left_points)
+
+	catmull_rom_shape.points = right_points
+
+	top_fin.points = [segments[1].position, segments[2].position, segments[3].position, segments[4].position]
+
+
+func _on_anchor_scanner_area_entered(area: Area2D) -> void:
+	anchors[area] = null
+
+func _on_anchor_scanner_area_exited(area: Area2D) -> void:
+	anchors.erase(area)
+"
+
+[sub_resource type="GDScript" id="GDScript_886al"]
+script/source = "@tool
+extends Node2D
+class_name Creature
+
+@export var head_body: CharacterBody2D
+@export var target_position: Vector2
+@export var speed: float = 0.0
+@export var speed_multiplier: float = 1.0
+
+func get_segments() -> Array: 
+	return get_children().filter(func(child):
+		return child is Segment	&& child.visible
+	)
+
+func _process(delta: float) -> void:
+	var segments = get_segments()
+	var head = segments[0]
+	var angle = atan2(target_position.y - head.position.y, target_position.x - head.position.x)
+	var delta_angle = angle - head.rotation
+
+	while delta_angle < -PI:
+		delta_angle += 2 * PI
+
+	while delta_angle > PI:
+		delta_angle -= 2 * PI
+
+	var new_rotation = head.rotation + delta_angle * delta * 2.0 * speed_multiplier
+	head.rotation = new_rotation
+	#head.rotation += delta_angle * delta * 2.0 * speed_multiplier
+	
+	head_body.position = head.position
+	#head_body.rotation = head.rotation
+
+	# calculate the motion
+	var motion = Vector2.ZERO
+	motion.x = speed * cos(head.rotation) * delta * speed_multiplier
+	motion.y = speed * sin(head.rotation) * delta * speed_multiplier
+
+	# calculate the collisions with other fish	
+	var collision = head_body.move_and_collide(motion)
+	#if collision:
+	#	head_body.velocity = head_body.velocity.slide(collision.get_normal())
+	#	head_body.move_and_slide()
+	#else:
+	#	head_body.position += motion
+
+
+	if collision:
+		var collision_normal = collision.get_normal()
+		var remaining_motion = collision.get_remainder()
+		var slide_motion = remaining_motion.slide(collision_normal)
+		head_body.position += slide_motion
+	else:
+		head_body.position += motion
+
+	head.position = head_body.position
+
+	for i in segments.size() - 1:
+		var current = segments[i + 1]
+		var prev = segments[i]
+		current.update_segment(prev)
+
+	queue_redraw()
+
+func _draw() -> void:
+	return
+"
 
 [sub_resource type="Animation" id="Animation_hlpmp"]
 length = 0.001
@@ -46,6 +182,14 @@ _data = {
 "change_speed": SubResource("Animation_nyaug")
 }
 
+[sub_resource type="GDScript" id="GDScript_qtfqh"]
+script/source = "@tool
+extends CharacterBody2D
+class_name CreatureHead
+
+@export var creature: Creature
+"
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_xd76a"]
 custom_solver_bias = 1.0
 radius = 25.0
@@ -54,17 +198,17 @@ radius = 25.0
 radius = 1000.0
 
 [node name="Shark" type="Node2D"]
-script = ExtResource("1_qitrd")
+script = SubResource("GDScript_nyb40")
 
 [node name="Creature" type="Node2D" parent="." node_paths=PackedStringArray("head_body")]
-script = ExtResource("1_y6mss")
+script = SubResource("GDScript_886al")
 head_body = NodePath("../CharacterBody2D")
 speed = 400.0
 speed_multiplier = 0.2
 
 [node name="Segment" type="Node2D" parent="Creature"]
-position = Vector2(-142.286, -155.891)
-rotation = 18528.3
+position = Vector2(16.1635, 235.796)
+rotation = 18752.1
 script = ExtResource("2_d5x32")
 distance_constraint = 20.0
 body_size = 25.0
@@ -76,15 +220,15 @@ remote_path = NodePath("../../../EyeSocket")
 remote_path = NodePath("../../../AnchorScanner")
 
 [node name="Segment2" type="Node2D" parent="Creature"]
-position = Vector2(-154.584, -140.119)
-rotation = -0.908505
+position = Vector2(35.9209, 232.69)
+rotation = 2.98568
 script = ExtResource("2_d5x32")
 distance_constraint = 20.0
 body_size = 27.0
 
 [node name="Segment3" type="Node2D" parent="Creature"]
-position = Vector2(-165.443, -123.324)
-rotation = -0.996875
+position = Vector2(55.3365, 227.891)
+rotation = 2.89927
 script = ExtResource("2_d5x32")
 distance_constraint = 20.0
 body_size = 24.0
@@ -105,29 +249,29 @@ border_color = Color(1, 1, 1, 1)
 fill_color = Color(0.0509804, 0.658824, 0.854902, 1)
 
 [node name="Segment4" type="Node2D" parent="Creature"]
-position = Vector2(-174.77, -105.632)
-rotation = -1.08561
+position = Vector2(74.2542, 221.401)
+rotation = 2.8111
 script = ExtResource("2_d5x32")
 distance_constraint = 20.0
 body_size = 20.0
 
 [node name="Segment7" type="Node2D" parent="Creature"]
-position = Vector2(-182.486, -87.1801)
-rotation = -1.17473
+position = Vector2(92.521, 213.257)
+rotation = 2.7222
 script = ExtResource("2_d5x32")
 distance_constraint = 20.0
 body_size = 15.0
 
 [node name="Segment5" type="Node2D" parent="Creature"]
-position = Vector2(-188.522, -68.1127)
-rotation = -1.26422
+position = Vector2(109.989, 203.517)
+rotation = 2.63297
 script = ExtResource("2_d5x32")
 distance_constraint = 20.0
 body_size = 10.0
 
 [node name="Segment6" type="Node2D" parent="Creature"]
-position = Vector2(-192.822, -48.5804)
-rotation = -1.3541
+position = Vector2(126.518, 192.257)
+rotation = 2.54358
 script = ExtResource("2_d5x32")
 distance_constraint = 20.0
 body_size = 5.0
@@ -146,8 +290,8 @@ border_color = Color(1, 1, 1, 1)
 fill_color = Color(0.0509804, 0.658824, 0.854902, 1)
 
 [node name="Segment8" type="Node2D" parent="Creature"]
-position = Vector2(-195.344, -28.74)
-rotation = -1.44436
+position = Vector2(141.976, 179.566)
+rotation = 2.45414
 script = ExtResource("2_d5x32")
 distance_constraint = 20.0
 body_size = 4.0
@@ -159,19 +303,19 @@ libraries = {
 
 [node name="CatmullRomShape" type="Node2D" parent="."]
 script = ExtResource("4_h7dar")
-points = PackedVector2Array(-191.536, -26.9749, -188.212, -46.2644, -179.365, -63.9059, -169.12, -80.2647, -157.638, -95.2434, -145.93, -109.301, -134.012, -122.594, -124.8, -137.986, -118.216, -155.945, -126.256, -173.302, -144.213, -179.895, -161.573, -171.863, -176.79, -155.55, -186.391, -135.125, -193.13, -113.691, -196.864, -91.6762, -198.467, -69.83, -197.991, -48.3572, -199.478, -27.9372)
+points = PackedVector2Array(220.594, 18.5352, 218.424, 37.9938, 210.657, 56.1572, 201.441, 73.1621, 190.934, 88.9164, 180.179, 103.808, 169.204, 117.975, 161.119, 134.054, 155.927, 152.465, 165.27, 169.156, 183.678, 174.357, 200.374, 165.022, 214.303, 147.675, 222.383, 126.673, 227.605, 104.893, 229.871, 82.7419, 230.093, 60.8764, 228.311, 39.4899, 228.579, 19.0228)
 border_color = Color(1, 1, 1, 1)
 fill_color = Color(0.0526073, 0.565235, 0.85546, 1)
 
 [node name="TopFin" type="Node2D" parent="."]
 script = ExtResource("4_h7dar")
-points = PackedVector2Array(-155.401, -139.072, -166.161, -122.213, -175.384, -104.467, -182.992, -85.9704)
+points = PackedVector2Array(191.754, 132.825, 201.281, 115.24, 209.269, 96.9049, 215.656, 77.952)
 border_color = Color(1, 1, 1, 1)
 fill_color = Color(0.0509804, 0.658824, 0.854902, 1)
 
 [node name="EyeSocket" type="Node2D" parent="."]
-position = Vector2(-142.286, -155.891)
-rotation = -0.820502
+position = Vector2(16.1635, 235.796)
+rotation = 3.06879
 
 [node name="LeftEye" type="Node2D" parent="EyeSocket"]
 position = Vector2(0, -20)
@@ -182,12 +326,12 @@ position = Vector2(0, 20)
 script = ExtResource("5_0hu1p")
 
 [node name="CharacterBody2D" type="CharacterBody2D" parent="." node_paths=PackedStringArray("creature")]
-position = Vector2(-142.286, -155.891)
+position = Vector2(16.1635, 235.796)
 rotation = -1.53531
 scale = Vector2(0.999858, 0.999858)
 motion_mode = 1
 wall_min_slide_angle = 0.0
-script = ExtResource("6_ijg78")
+script = SubResource("GDScript_qtfqh")
 creature = NodePath("../Creature")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
@@ -195,8 +339,8 @@ rotation = 1.5708
 shape = SubResource("CircleShape2D_xd76a")
 
 [node name="AnchorScanner" type="Area2D" parent="."]
-position = Vector2(-142.286, -155.891)
-rotation = -0.820502
+position = Vector2(16.1635, 235.796)
+rotation = 3.06879
 collision_layer = 0
 collision_mask = 2
 

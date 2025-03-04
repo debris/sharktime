@@ -3,7 +3,7 @@ class_name Anchor
 
 signal on_left_click
 signal on_right_click
-signal on_touch_shark(creature: Creature)
+signal on_body_touch(body: Body)
 
 @onready var ball = $Ball
 
@@ -19,6 +19,6 @@ func _on_area_2d_input_event(_viewport: Node, event: InputEvent, _shape_idx: int
 	elif event.is_action_released("right_click"):
 		on_right_click.emit()
 
-func _on_area_2d_body_entered(body: Node2D) -> void:
-	if body is CreatureHead:
-		on_touch_shark.emit(body.creature)
+func _on_area_2d_body_entered(node: Node2D) -> void:
+	if node is BodyHead:
+		on_body_touch.emit(node.body)

@@ -2,6 +2,9 @@
 extends BodyDrawer
 class_name BodyDrawerSmooth
 
+@export var fill_color: Color = Color.BLACK
+@export var border_color: Color = Color.WHITE
+
 func _draw_body(body: Body):
 	var segments = body.get_segments()
 	var left_points = []
@@ -36,8 +39,8 @@ func _draw_body(body: Body):
 	if vertices.is_empty():
 		return
 
-	body.draw_polygon(vertices, [Color.BLACK])
-	body.draw_polyline(vertices + [vertices[0]], Color.WHITE, 2.0)
+	body.draw_polygon(vertices, [fill_color])
+	body.draw_polyline(vertices + [vertices[0]], border_color, 2.0)
 
 
 func _draw_segment(_segment: Segment):

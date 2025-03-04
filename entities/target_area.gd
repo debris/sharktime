@@ -51,11 +51,11 @@ func _draw() -> void:
 		draw_circle(Vector2.ZERO, radius, color, true)
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
-	if body is CreatureHead:
+	if body is BodyHead:
 		sharks_inside += 1
 		if sharks_inside == 1 && ding_sound != null:
 			ding_sound.play()
 
 func _on_area_2d_body_exited(body: Node2D) -> void:
-	if body is CreatureHead:
+	if body is BodyHead:
 		sharks_inside -= 1

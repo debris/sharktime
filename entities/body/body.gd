@@ -14,6 +14,9 @@ class_name Body
 		for segment: Segment in get_segments():
 			segment.queue_redraw()
 
+@export var speed_multiplier: float = 0.2
+@export var character_body: CharacterBody2D
+
 func get_segments() -> Array:
 	return get_children().filter(func(child):
 		return child is Segment	&& child.visible
